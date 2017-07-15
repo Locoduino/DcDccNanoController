@@ -1,0 +1,24 @@
+#######################################
+# Syntax Coloring Map For Matrix
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+DcDccControler			KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+begin					KEYWORD2
+beginMain				KEYWORD2
+beginProg				KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+UNDEFINED_ID	LITERAL1
+

@@ -1,0 +1,273 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{9696B190-8A31-45BA-A43E-0287102EF438}</ProjectGuid>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <Keyword>ManagedCProj</Keyword>
+    <RootNamespace>TestExe</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CLRSupport>true</CLRSupport>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CLRSupport>true</CLRSupport>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CLRSupport>true</CLRSupport>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CLRSupport>true</CLRSupport>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(IncludePath);$(VisualStudioDir)\..\Arduino\ArduiEmulator\ArduiEmulator;$(VisualStudioDir)\..\Arduino\Libraries\DIO2\VStudio;$(VisualStudioDir)\..\Arduino\Libraries\Commanders\VStudio;$(VisualStudioDir)\..\Arduino\Libraries\Commanders\src;$(VisualStudioDir)\..\Arduino\Libraries\LcdUi\VStudio;$(VisualStudioDir)\..\Arduino\Libraries\LcdUi\src;$(VisualStudioDir)\..\Arduino\Libraries\EEPROMextent\VStudio</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../../../ArduiEmulator/ArduiEmulator</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies />
+      <SubSystem>Windows</SubSystem>
+      <EntryPointSymbol>Main</EntryPointSymbol>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions);VISUALSTUDIO;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\src</AdditionalIncludeDirectories>
+      <PreprocessToFile>false</PreprocessToFile>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies />
+      <EntryPointSymbol>Main</EntryPointSymbol>
+      <NoEntryPoint>false</NoEntryPoint>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies />
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies />
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Commanders\src\ButtonsCommander.cpp" />
+    <ClCompile Include="..\..\Commanders\src\ButtonsCommanderAnalogPushes.cpp" />
+    <ClCompile Include="..\..\Commanders\src\ButtonsCommanderAnalogPushesItem.cpp" />
+    <ClCompile Include="..\..\Commanders\src\ButtonsCommanderButton.cpp" />
+    <ClCompile Include="..\..\Commanders\src\ButtonsCommanderEncoder.cpp" />
+    <ClCompile Include="..\..\Commanders\src\ButtonsCommanderPotentiometer.cpp" />
+    <ClCompile Include="..\..\Commanders\src\ButtonsCommanderPush.cpp" />
+    <ClCompile Include="..\..\Commanders\src\ButtonsCommanderSwitch.cpp" />
+    <ClCompile Include="..\..\Commanders\src\ButtonsCommanderSwitchOnePin.cpp" />
+    <ClCompile Include="..\..\Commanders\src\ButtonsCommanderSwitchTwoPins.cpp" />
+    <ClCompile Include="..\..\Commanders\src\CANCommander.cpp" />
+    <ClCompile Include="..\..\Commanders\src\Commander.cpp" />
+    <ClCompile Include="..\..\Commanders\src\Commanders.cpp" />
+    <ClCompile Include="..\..\Commanders\src\DccCommander.cpp" />
+    <ClCompile Include="..\..\Commanders\src\EventStack.cpp" />
+    <ClCompile Include="..\..\Commanders\src\I2CCommander.cpp" />
+    <ClCompile Include="..\..\Commanders\src\TextInterpreter.cpp" />
+    <ClCompile Include="..\..\Commanders\VStudio\ButtonsCommanderKeyboard.cpp" />
+    <ClCompile Include="..\..\LcdUi\src\LcdScreen.cpp" />
+    <ClCompile Include="..\..\LcdUi\src\LcdUi.cpp" />
+    <ClCompile Include="..\..\LcdUi\src\Window.cpp" />
+    <ClCompile Include="..\..\LcdUi\src\WindowChoice.cpp" />
+    <ClCompile Include="..\..\LcdUi\src\WindowChoiceText.cpp" />
+    <ClCompile Include="..\..\LcdUi\src\WindowConfirm.cpp" />
+    <ClCompile Include="..\..\LcdUi\src\WindowInt.cpp" />
+    <ClCompile Include="..\..\LcdUi\src\WindowInterrupt.cpp" />
+    <ClCompile Include="..\..\LcdUi\src\WindowInterruptConfirm.cpp" />
+    <ClCompile Include="..\..\LcdUi\src\WindowSequence.cpp" />
+    <ClCompile Include="..\..\LcdUi\src\WindowSplash.cpp" />
+    <ClCompile Include="..\..\LcdUi\src\WindowText.cpp" />
+    <ClCompile Include="..\..\LcdUi\src\WindowYesNo.cpp" />
+    <ClCompile Include="..\src\Controler.cpp" />
+    <ClCompile Include="..\src\ControlerDc.cpp" />
+    <ClCompile Include="..\src\ControlerDccpp.cpp" />
+    <ClCompile Include="..\src\DCCpp\CurrentMonitor.cpp" />
+    <ClCompile Include="..\src\DCCpp\PacketRegister.cpp" />
+    <ClCompile Include="..\src\DcDccControler.cpp" />
+    <ClCompile Include="..\src\Function.cpp" />
+    <ClCompile Include="..\src\Handle.cpp" />
+    <ClCompile Include="..\src\Locomotive.cpp" />
+    <ClCompile Include="..\src\WindowChooseDcFreq.cpp" />
+    <ClCompile Include="..\src\WindowCv.cpp" />
+    <ClCompile Include="..\src\WindowFunctions.cpp" />
+    <ClCompile Include="..\src\WindowLocoControl.cpp" />
+    <ClCompile Include="InoProject.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="TestExe.ino" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Commanders\src\ButtonsCommander.hpp" />
+    <ClInclude Include="..\..\Commanders\src\ButtonsCommanderAnalogPushes.hpp" />
+    <ClInclude Include="..\..\Commanders\src\ButtonsCommanderAnalogPushesItem.hpp" />
+    <ClInclude Include="..\..\Commanders\src\ButtonsCommanderButton.hpp" />
+    <ClInclude Include="..\..\Commanders\src\ButtonsCommanderEncoder.hpp" />
+    <ClInclude Include="..\..\Commanders\src\ButtonsCommanderPotentiometer.hpp" />
+    <ClInclude Include="..\..\Commanders\src\ButtonsCommanderPush.hpp" />
+    <ClInclude Include="..\..\Commanders\src\ButtonsCommanderSwitch.hpp" />
+    <ClInclude Include="..\..\Commanders\src\ButtonsCommanderSwitchOnePin.hpp" />
+    <ClInclude Include="..\..\Commanders\src\ButtonsCommanderSwitchTwoPins.hpp" />
+    <ClInclude Include="..\..\Commanders\src\CANCommander.hpp" />
+    <ClInclude Include="..\..\Commanders\src\Chain.hpp" />
+    <ClInclude Include="..\..\Commanders\src\Commander.hpp" />
+    <ClInclude Include="..\..\Commanders\src\Commanders.h" />
+    <ClInclude Include="..\..\Commanders\src\Commanders.hpp" />
+    <ClInclude Include="..\..\Commanders\src\DccCommander.hpp" />
+    <ClInclude Include="..\..\Commanders\src\Events.h" />
+    <ClInclude Include="..\..\Commanders\src\EventStack.hpp" />
+    <ClInclude Include="..\..\Commanders\src\I2CCommander.hpp" />
+    <ClInclude Include="..\..\Commanders\src\SerialCommander.hpp" />
+    <ClInclude Include="..\..\Commanders\src\TextInterpreter.hpp" />
+    <ClInclude Include="..\..\Commanders\VStudio\ButtonsCommanderKeyboard.hpp" />
+    <ClInclude Include="..\..\Commanders\VStudio\DCC_Decoder.hpp" />
+    <ClInclude Include="..\..\Commanders\VStudio\mcp_can.h" />
+    <ClInclude Include="..\..\Commanders\VStudio\mcp_can_dfs.h" />
+    <ClInclude Include="..\..\LcdUi\src\Chain.hpp" />
+    <ClInclude Include="..\..\LcdUi\src\LcdScreen.hpp" />
+    <ClInclude Include="..\..\LcdUi\src\LcdUi.h" />
+    <ClInclude Include="..\..\LcdUi\src\ScreenLiquid.hpp" />
+    <ClInclude Include="..\..\LcdUi\src\ScreenLiquidNew.hpp" />
+    <ClInclude Include="..\..\LcdUi\src\ScreenNokia5110.hpp" />
+    <ClInclude Include="..\..\LcdUi\src\Window.hpp" />
+    <ClInclude Include="..\..\LcdUi\src\WindowChoice.hpp" />
+    <ClInclude Include="..\..\LcdUi\src\WindowChoiceText.hpp" />
+    <ClInclude Include="..\..\LcdUi\src\WindowConfirm.hpp" />
+    <ClInclude Include="..\..\LcdUi\src\WindowInt.hpp" />
+    <ClInclude Include="..\..\LcdUi\src\WindowInterrupt.hpp" />
+    <ClInclude Include="..\..\LcdUi\src\WindowInterruptConfirm.hpp" />
+    <ClInclude Include="..\..\LcdUi\src\WindowSequence.hpp" />
+    <ClInclude Include="..\..\LcdUi\src\WindowSplash.hpp" />
+    <ClInclude Include="..\..\LcdUi\src\WindowText.hpp" />
+    <ClInclude Include="..\..\LcdUi\src\WindowYesNo.hpp" />
+    <ClInclude Include="..\src\Controler.hpp" />
+    <ClInclude Include="..\src\ControlerDc.hpp" />
+    <ClInclude Include="..\src\ControlerDccpp.hpp" />
+    <ClInclude Include="..\src\DCCpp\Config.h" />
+    <ClInclude Include="..\src\DCCpp\CurrentMonitor.h" />
+    <ClInclude Include="..\src\DCCpp\DCCpp_Uno.h" />
+    <ClInclude Include="..\src\DCCpp\PacketRegister.h" />
+    <ClInclude Include="..\src\DcDccNanoControler.h" />
+    <ClInclude Include="..\src\English16.h" />
+    <ClInclude Include="..\src\French16.h" />
+    <ClInclude Include="..\src\Function.hpp" />
+    <ClInclude Include="..\src\Handle.hpp" />
+    <ClInclude Include="..\src\LcdEvents.h" />
+    <ClInclude Include="..\src\Locomotive.hpp" />
+    <ClInclude Include="..\src\WindowChooseDcFreq.hpp" />
+    <ClInclude Include="..\src\WindowCv.hpp" />
+    <ClInclude Include="..\src\WindowFunctions.hpp" />
+    <ClInclude Include="..\src\WindowLocoControl.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\ArduiEmulator\ArduiEmulator\ArduiEmulator.vcxproj">
+      <Project>{2cedff9d-11ac-46b3-92b0-8b43cbccffac}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\DIO2\VStudio\DIO2.vcxproj">
+      <Project>{cc4048d1-7ac0-4d3d-98a3-2922d996b5ab}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\Commanders\WhatsNew.TXT" />
+    <Text Include="..\..\LcdUi\WhatsNew.TXT" />
+    <Text Include="..\WhatsNew.TXT" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
