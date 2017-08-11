@@ -10,7 +10,7 @@
 #endif
 
 #include "Locomotive.hpp"
-#include "Controler.hpp"
+#include "Controller.hpp"
 
 class Handle;
 
@@ -79,7 +79,7 @@ class Handle
 	private:
 		// Handle interactive situation
 		// In Mega version, because each handle moves its loco, RollingStock::Current cannot by used...
-		Locomotive controled;
+		Locomotive controlled;
 
 	public:
 		Handle();
@@ -91,11 +91,11 @@ class Handle
 		void Clear();
 
 		inline LcdUi *GetUI() const { return this->pUi; }
-		//void SetControledLocomotive(byte inRollingStockSlot);
-		void SetControledLocomotive(Locomotive &Locomotive);
-		inline const Locomotive &GetControledLocomotive() const { return this->controled; }
+		//void SetControlledLocomotive(byte inRollingStockSlot);
+		void SetControlledLocomotive(Locomotive &Locomotive);
+		inline const Locomotive &GetControlledLocomotive() const { return this->controlled; }
 
-		inline bool IsLeftDir() const { return this->controled.GetDirectionToLeft(); }
+		inline bool IsLeftDir() const { return this->controlled.GetDirectionToLeft(); }
 		inline bool IsRightDir() const { return !IsLeftDir(); }
 
 		void SetSpeed(int inNewSpeed);

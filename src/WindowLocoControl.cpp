@@ -1,10 +1,10 @@
 /*************************************************************
-project: <Dc/Dcc Controler>
+project: <Dc/Dcc controller>
 author: <Thierry PARIS>
 description: <Class for a loco control window>
 *************************************************************/
 
-#include "DcDccNanoControler.h"
+#include "DcDccNanoController.h"
 #include "WindowChooseDcFreq.hpp"
 #include "WindowLocoControl.hpp"
 
@@ -31,10 +31,10 @@ void WindowLocoControl::Event(byte inEventType, LcdUi *inpLcd)
 
 	if (this->state == STATE_START)
 	{
-		if (DcDccControler::dcType == Dc)
+		if (DcDccController::dcType == Dc)
 		{
-			inpLcd->GetScreen()->DisplayHeader(((ControlerDc *)DcDccControler::pControler)->IsSlowMode() ? STR_DCSLOW : this->dcMsg);
-			ControlerDc::BuildFreqIndexString(((ControlerDc *)DcDccControler::pControler)->DCFrequencyDivisorIndex);
+			inpLcd->GetScreen()->DisplayHeader(((ControllerDc *)DcDccController::pController)->IsSlowMode() ? STR_DCSLOW : this->dcMsg);
+			ControllerDc::BuildFreqIndexString(((ControllerDc *)DcDccController::pController)->DCFrequencyDivisorIndex);
 			byte len = LcdScreen::BuildString(LcdScreen::buffer, inpLcd->GetScreen()->GetSizeX() - 4, LcdScreen::buffer);
 			inpLcd->GetScreen()->DisplayText(LcdScreen::buffer, inpLcd->GetScreen()->GetSizeX() - len, 0);
 		}
@@ -42,7 +42,7 @@ void WindowLocoControl::Event(byte inEventType, LcdUi *inpLcd)
 		{
 			inpLcd->GetScreen()->DisplayHeader(this->dccMsg);
 			inpLcd->GetScreen()->DisplayText((char *)" ", 3, 0);
-			LcdScreen::BuildString(this->pHandle->GetControledLocomotive().GetDccId(), LcdScreen::buffer, 5);
+			LcdScreen::BuildString(this->pHandle->GetControlledLocomotive().GetDccId(), LcdScreen::buffer, 5);
 			inpLcd->GetScreen()->DisplayText(LcdScreen::buffer, 4, 0);
 		}
 
@@ -50,8 +50,8 @@ void WindowLocoControl::Event(byte inEventType, LcdUi *inpLcd)
 	}
 
 	byte inc;
-	byte steps = this->pHandle->GetControledLocomotive().GetSteps();
-	if (DcDccControler::dcType == Dcc)
+	byte steps = this->pHandle->GetControlledLocomotive().GetSteps();
+	if (DcDccController::dcType == Dcc)
 	{
 #ifdef DDC_DEBUG_MODE
 		//Serial.println(steps);
@@ -64,7 +64,7 @@ void WindowLocoControl::Event(byte inEventType, LcdUi *inpLcd)
 	}
 	else
 	{
-		steps = ((ControlerDc *)DcDccControler::pControler)->GetMaxSpeed();
+		steps = ((ControllerDc *)DcDccController::pController)->GetMaxSpeed();
 		inc = steps / (inpLcd->GetScreen()->GetSizeX()-2);
 	}
 
@@ -75,7 +75,7 @@ void WindowLocoControl::Event(byte inEventType, LcdUi *inpLcd)
 #ifdef DDC_DEBUG_MODE
 			Serial.print(F("MORE "));
 #endif
-			unsigned int newValue = abs(this->pHandle->GetControledLocomotive().GetMappedSpeed()) + inc;
+			unsigned int newValue = abs(this->pHandle->GetControlledLocomotive().GetMappedSpeed()) + inc;
 			if (newValue > steps)
 				newValue = steps;
 			this->pHandle->SetSpeed(newValue);
@@ -91,7 +91,7 @@ void WindowLocoControl::Event(byte inEventType, LcdUi *inpLcd)
 #ifdef DDC_DEBUG_MODE
 			Serial.print(F("LESS "));
 #endif
-			int newValue = abs(this->pHandle->GetControledLocomotive().GetMappedSpeed()) - inc;
+			int newValue = abs(this->pHandle->GetControlledLocomotive().GetMappedSpeed()) - inc;
 			if (newValue < 0)
 				newValue = 0;
 			this->pHandle->SetSpeed(newValue);
@@ -126,7 +126,7 @@ void WindowLocoControl::Event(byte inEventType, LcdUi *inpLcd)
 #ifdef DDC_DEBUG_MODE
 			Serial.println(F("SELECT"));
 #endif
-			this->pHandle->SetDirection(!this->pHandle->GetControledLocomotive().GetDirectionToLeft());
+			this->pHandle->SetDirection(!this->pHandle->GetControlledLocomotive().GetDirectionToLeft());
 			showValue = true;
 			break;
 		case EVENT_CANCEL:
@@ -153,17 +153,17 @@ void WindowLocoControl::Event(byte inEventType, LcdUi *inpLcd)
 		// 0 Dc	lent  31250 Hz
 		// 1 ->>>>>			 +
 		//   01234567879012345
-		int speed = abs(this->pHandle->GetControledLocomotive().GetMappedSpeed());
+		int speed = abs(this->pHandle->GetControlledLocomotive().GetMappedSpeed());
 		if (speed == 1)
 			speed = 0;
-		LcdScreen::BuildProgress(speed, DcDccControler::pControler->GetMaxSpeed(),
-			this->pHandle->GetControledLocomotive().GetDirectionToLeft(), inpLcd->GetScreen()->GetSizeX(), LcdScreen::buffer);
+		LcdScreen::BuildProgress(speed, DcDccController::pController->GetMaxSpeed(),
+			this->pHandle->GetControlledLocomotive().GetDirectionToLeft(), inpLcd->GetScreen()->GetSizeX(), LcdScreen::buffer);
 		inpLcd->GetScreen()->DisplayText(LcdScreen::buffer, 0, 1);
 
-		if (DcDccControler::dcType == Dcc)
+		if (DcDccController::dcType == Dcc)
 		{
-			LcdScreen::buffer[0] = this->pHandle->GetControledLocomotive().Functions[0].IsActivated() ? '*' : '.';
-			LcdScreen::buffer[1] = this->pHandle->GetControledLocomotive().Functions[1].IsActivated() ? '*' : '.';
+			LcdScreen::buffer[0] = this->pHandle->GetControlledLocomotive().Functions[0].IsActivated() ? '*' : '.';
+			LcdScreen::buffer[1] = this->pHandle->GetControlledLocomotive().Functions[1].IsActivated() ? '*' : '.';
 			LcdScreen::buffer[2] = 0;
 
 			inpLcd->GetScreen()->DisplayText(LcdScreen::buffer, inpLcd->GetScreen()->GetSizeX() - 2, 0);

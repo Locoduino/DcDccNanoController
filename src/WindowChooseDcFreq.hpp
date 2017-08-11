@@ -3,7 +3,7 @@
 #define __windowChooseDcFreq_H__
 //-------------------------------------------------------------------
 
-#include "DcDccNanoControler.h"
+#include "DcDccNanoController.h"
 
 //-------------------------------------------------------------------
 
@@ -22,7 +22,7 @@ public:
 	byte GetChoiceTextNumber() const;
 	char *GetChoiceTextValue(byte indexValue, LcdScreen *apScreen) const;
 
-	inline void BuildFreqString() { return ControlerDc::BuildFreqIndexString(*(this->pValue)); }
+	inline void BuildFreqString() { return ControllerDc::BuildFreqIndexString(*(this->pValue)); }
 	inline byte GetType() const { return WINDOWTYPE_FREQCHOICE; }
 	inline void MoveNextChoice() { move(true); }
 	inline void MovePreviousChoice() {	move(false); }

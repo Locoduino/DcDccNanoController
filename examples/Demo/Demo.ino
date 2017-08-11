@@ -1,16 +1,16 @@
 /*************************************************************
-project: <Dc/Dcc Controler>
+project: <Dc/Dcc Controller>
 author: <Thierry PARIS>
-description: <Dc/Dcc Nano controler sample>
+description: <Dc/Dcc Nano Controller sample>
 *************************************************************/
 
 #include "French16.h"
-#include "Commanders.h"
+#include <Commanders.h>
 
-#include "DcDccNanoControler.h"
+#include "DcDccNanoController.h"
 
 #include <LiquidCrystal.h>
-#include "ScreenLiquid.hpp"		// DcDccNaNoControler include file associated with LiquidCrystal...
+#include "ScreenLiquid.hpp"		// DcDccNaNoController include file associated with LiquidCrystal...
 
 LiquidCrystal lcd(7, 6, 5, 4, 3, 2);
 ScreenLiquid screen;
@@ -38,8 +38,8 @@ void setup()
 	// if dcdcc pin equals to 255, dcc mode is forced.
 	// if dcdcc pin equals to 0, dc mode is forced.
 	// otherwise, pin state give dc or dcc.
-	DcDccControler::begin(A5, &screen);
-	DcDccControler::beginMain(255, DCC_SIGNAL_PIN_MAIN, 11, A6);    // Dir, Pwm, current sensor pin
+	DcDccController::begin(A5, &screen);
+	DcDccController::beginMain(255, DCC_SIGNAL_PIN_MAIN, 11, A6);    // Dir, Pwm, current sensor pin
 }
 
 void loop()
@@ -50,6 +50,6 @@ void loop()
 	if (eventId == UNDEFINED_ID)
 		eventId = EVENT_NONE;
 
-	DcDccControler::loop(eventId, Commanders::GetLastEventData());
+	DcDccController::loop(eventId, Commanders::GetLastEventData());
 }
 

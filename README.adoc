@@ -1,10 +1,10 @@
-= DcDccNanoControler extension Library for Arduino =
+= DcDccNanoController extension Library for Arduino =
 
-This library is made to build Basic Dcc controler on small Arduinos Nano or Uno.
+This library is made to build Basic Dcc controller on small Arduinos Nano or Uno.
 
 For more information about this library please visit us at
 http://www.locoduino.org/spip.php?article224 in french or
-http://git.framasoft.org/locoduino.org/DcDccNanoControler/wikis/home for both french and english.
+http://git.framasoft.org/locoduino.org/DcDccNanoController/wikis/home for both french and english.
 
 == License ==
 

@@ -1,14 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="Debug|Win32">
-      <Configuration>Debug</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|Win32">
-      <Configuration>Release</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|x64">
       <Configuration>Debug</Configuration>
       <Platform>x64</Platform>
@@ -26,20 +18,6 @@
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
-    <CLRSupport>true</CLRSupport>
-    <CharacterSet>Unicode</CharacterSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
-    <CLRSupport>true</CLRSupport>
-    <CharacterSet>Unicode</CharacterSet>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
@@ -59,12 +37,6 @@
   </ImportGroup>
   <ImportGroup Label="Shared">
   </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
@@ -72,39 +44,20 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LinkIncremental>true</LinkIncremental>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(IncludePath);$(VisualStudioDir)\..\Arduino\ArduiEmulator\ArduiEmulator;$(VisualStudioDir)\..\Arduino\Libraries\DIO2\VStudio;$(VisualStudioDir)\..\Arduino\Libraries\Commanders\VStudio;$(VisualStudioDir)\..\Arduino\Libraries\Commanders\src;$(VisualStudioDir)\..\Arduino\Libraries\LcdUi\VStudio;$(VisualStudioDir)\..\Arduino\Libraries\LcdUi\src;$(VisualStudioDir)\..\Arduino\Libraries\EEPROMextent\VStudio</IncludePath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(IncludePath);$(VisualStudioDir)\..\Arduino\ArduiEmulator\ArduiEmulator;$(VisualStudioDir)\..\Arduino\Libraries\DIO2\VStudio;$(VisualStudioDir)\..\Arduino\Libraries\DcDccNanocontroller\VStudio;$(VisualStudioDir)\..\Arduino\Libraries\Commanders\VStudio;$(VisualStudioDir)\..\Arduino\Libraries\LcdUi\VStudio;$(VisualStudioDir)\..\Arduino\Libraries\DcDccNanocontroller\src;$(VisualStudioDir)\..\Arduino\Libraries\Commanders\src;$(VisualStudioDir)\..\Arduino\Libraries\LcdUi\src</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../../../ArduiEmulator/ArduiEmulator</AdditionalIncludeDirectories>
-    </ClCompile>
-    <Link>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies />
-      <SubSystem>Windows</SubSystem>
-      <EntryPointSymbol>Main</EntryPointSymbol>
-    </Link>
-  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions);VISUALSTUDIO;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
       <PreprocessToFile>false</PreprocessToFile>
     </ClCompile>
     <Link>
@@ -113,16 +66,6 @@
       <EntryPointSymbol>Main</EntryPointSymbol>
       <NoEntryPoint>false</NoEntryPoint>
       <SubSystem>Windows</SubSystem>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-    </ClCompile>
-    <Link>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies />
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -174,12 +117,12 @@
     <ClCompile Include="..\..\LcdUi\src\WindowSplash.cpp" />
     <ClCompile Include="..\..\LcdUi\src\WindowText.cpp" />
     <ClCompile Include="..\..\LcdUi\src\WindowYesNo.cpp" />
-    <ClCompile Include="..\src\Controler.cpp" />
-    <ClCompile Include="..\src\ControlerDc.cpp" />
-    <ClCompile Include="..\src\ControlerDccpp.cpp" />
+    <ClCompile Include="..\src\controller.cpp" />
+    <ClCompile Include="..\src\controllerDc.cpp" />
+    <ClCompile Include="..\src\controllerDccpp.cpp" />
     <ClCompile Include="..\src\DCCpp\CurrentMonitor.cpp" />
     <ClCompile Include="..\src\DCCpp\PacketRegister.cpp" />
-    <ClCompile Include="..\src\DcDccControler.cpp" />
+    <ClCompile Include="..\src\DcDcccontroller.cpp" />
     <ClCompile Include="..\src\Function.cpp" />
     <ClCompile Include="..\src\Handle.cpp" />
     <ClCompile Include="..\src\Locomotive.cpp" />
@@ -215,6 +158,7 @@
     <ClInclude Include="..\..\Commanders\src\SerialCommander.hpp" />
     <ClInclude Include="..\..\Commanders\src\TextInterpreter.hpp" />
     <ClInclude Include="..\..\Commanders\VStudio\ButtonsCommanderKeyboard.hpp" />
+    <ClInclude Include="..\..\Commanders\VStudio\Commanders.h" />
     <ClInclude Include="..\..\Commanders\VStudio\DCC_Decoder.hpp" />
     <ClInclude Include="..\..\Commanders\VStudio\mcp_can.h" />
     <ClInclude Include="..\..\Commanders\VStudio\mcp_can_dfs.h" />
@@ -235,14 +179,14 @@
     <ClInclude Include="..\..\LcdUi\src\WindowSplash.hpp" />
     <ClInclude Include="..\..\LcdUi\src\WindowText.hpp" />
     <ClInclude Include="..\..\LcdUi\src\WindowYesNo.hpp" />
-    <ClInclude Include="..\src\Controler.hpp" />
-    <ClInclude Include="..\src\ControlerDc.hpp" />
-    <ClInclude Include="..\src\ControlerDccpp.hpp" />
+    <ClInclude Include="..\src\controller.hpp" />
+    <ClInclude Include="..\src\controllerDc.hpp" />
+    <ClInclude Include="..\src\controllerDccpp.hpp" />
     <ClInclude Include="..\src\DCCpp\Config.h" />
     <ClInclude Include="..\src\DCCpp\CurrentMonitor.h" />
     <ClInclude Include="..\src\DCCpp\DCCpp_Uno.h" />
     <ClInclude Include="..\src\DCCpp\PacketRegister.h" />
-    <ClInclude Include="..\src\DcDccNanoControler.h" />
+    <ClInclude Include="..\src\DcDccNanocontroller.h" />
     <ClInclude Include="..\src\English16.h" />
     <ClInclude Include="..\src\French16.h" />
     <ClInclude Include="..\src\Function.hpp" />

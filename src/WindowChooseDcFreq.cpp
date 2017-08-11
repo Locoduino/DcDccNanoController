@@ -1,10 +1,10 @@
 /*************************************************************
-project: <Dc/Dcc Controler>
+project: <Dc/Dcc Controller>
 author: <Thierry PARIS>
 description: <Class for a choice of DC PWM frequency>
 *************************************************************/
 
-#include "DcDccNanoControler.h"
+#include "DcDccNanoController.h"
 #include "WindowChooseDcFreq.hpp"
 
 byte WindowChooseDcFreq::GetChoiceTextNumber() const
@@ -14,7 +14,7 @@ byte WindowChooseDcFreq::GetChoiceTextNumber() const
 
 char *WindowChooseDcFreq::GetChoiceTextValue(byte indexValue, LcdScreen *apScreen) const
 {
-	ControlerDc::BuildFreqIndexString(indexValue);
+	ControllerDc::BuildFreqIndexString(indexValue);
 
 	return LcdScreen::buffer;
 }
@@ -31,7 +31,7 @@ void WindowChooseDcFreq::move(bool inMore)
 	if (inMore)
 	{
 		i++;
-		if (ControlerDc::divisors_11_3_pow2[i] == 255)
+		if (ControllerDc::divisors_11_3_pow2[i] == 255)
 			i = NB_PWM_FREQ_11_3 - 1;
 	}
 	else

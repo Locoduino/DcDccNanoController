@@ -1,9 +1,9 @@
 //-------------------------------------------------------------------
-#ifndef __controlerDc_H__
-#define __controlerDc_H__
+#ifndef __ControllerDc_H__
+#define __ControllerDc_H__
 //-------------------------------------------------------------------
 
-#include "Controler.hpp"
+#include "Controller.hpp"
 
 //-------------------------------------------------------------------
 
@@ -12,7 +12,7 @@
 #define NB_PWM_FREQ_11_3	7
 
 
-class ControlerDc : public Controler
+class ControllerDc : public Controller
 {
 	private:
 		uint8_t dcPWMpin;	// SignalEnable
@@ -24,7 +24,7 @@ class ControlerDc : public Controler
 		static const byte divisors_11_3_pow2[];
 		byte DCFrequencyDivisorIndex;
 
-		inline ControlerDc() { this->dcPWMpin = 0; this->dcDirPin = 0; this->DCFrequencyDivisorIndex = 3; this->slowMode = false; this->maxSpeed = 255; }
+		inline ControllerDc() { this->dcPWMpin = 0; this->dcDirPin = 0; this->DCFrequencyDivisorIndex = 3; this->slowMode = false; this->maxSpeed = 255; }
 		
 	public:
 		void begin();

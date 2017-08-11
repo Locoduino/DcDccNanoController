@@ -1,12 +1,13 @@
 /*************************************************************
-project: <Dc/Dcc Controler>
+project: <Dc/Dcc Controller>
 author: <Thierry PARIS>
 description: <Class for a decoder function>
 *************************************************************/
 
-#include "DcDccNanoControler.h"
-#include "Function.hpp"
 #include "EEPROM.h"
+
+#include "DcDccNanoController.h"
+#include "Function.hpp"
 
 Function::Function(int inDccId)
 {

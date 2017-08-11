@@ -1,13 +1,13 @@
 /*************************************************************
-project: <Dc/Dcc Controler>
+project: <Dc/Dcc Controller>
 author: <Thierry PARIS>
-description: <Dc/Dcc Nano controler sample>
+description: <Dc/Dcc Nano Controller sample>
 *************************************************************/
 
 #include "French16.h"
 #include "Commanders.h"
 
-#include "DcDccNanoControler.h"
+#include "DcDccNanoController.h"
 
 #include <LiquidCrystal.h>
 #include "ScreenLiquid.hpp"
@@ -76,8 +76,8 @@ void setup()
 	// if dcdcc pin equals to 0, dc mode is forced.
 	// otherwise, pin state give dc or dcc.
 	screen.begin(16, 2, DcDccStringTable, &lcd);
-	DcDccControler::begin(255/*A5*/, &screen);
-	DcDccControler::beginMain(255, DCC_SIGNAL_PIN_MAIN, 11, A6);    // Dc: Dir, Pwm, current sensor
+	DcDccController::begin(255/*A5*/, &screen);
+	DcDccController::beginMain(255, DCC_SIGNAL_PIN_MAIN, 11, A6);    // Dc: Dir, Pwm, current sensor
 }
 
 void loop()
@@ -91,6 +91,6 @@ void loop()
 	if (eventId == UNDEFINED_ID)
 		eventId = EVENT_NONE;
 
-	DcDccControler::loop(eventId, Commanders::GetLastEventData());
+	DcDccController::loop(eventId, Commanders::GetLastEventData());
 }
 

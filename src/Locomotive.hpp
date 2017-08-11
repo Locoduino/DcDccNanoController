@@ -2,7 +2,7 @@
 #ifndef __locomotive_H__
 #define __locomotive_H__
 //-------------------------------------------------------------------
-#include "DcDccNanoControler.h"
+#include "DcDccNanoController.h"
 #include "Function.hpp"
 
 #ifndef FUNCTION_NUMBER

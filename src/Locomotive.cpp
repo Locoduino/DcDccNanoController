@@ -1,10 +1,10 @@
 /*************************************************************
-project: <Dc/Dcc Controler>
+project: <Dc/Dcc Controller>
 author: <Thierry PARIS>
 description: <Class for one locomotive>
 *************************************************************/
 
-#include "DcDccNanoControler.h"
+#include "DcDccNanoController.h"
 #include "Locomotive.hpp"
 #include "EEPROM.h"
 

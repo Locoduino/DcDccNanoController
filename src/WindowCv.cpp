@@ -4,7 +4,7 @@ author: <Thierry PARIS>
 description: <Class for a Cv edition>
 *************************************************************/
 
-#include "DcDccNanoControler.h"
+#include "DcDccNanoController.h"
 #include "WindowCv.hpp"
 
 void WindowCv::begin(byte inFirstLine)
@@ -22,7 +22,7 @@ void WindowCv::Event(byte inEventType, LcdUi *inpLcd)
 		this->valueEdited = false;
 		this->undefValue = true;
 		this->value = 0;
-		//((ControlerDccpp *)DcDccControler::pControler)->StartProgramMode();
+		//((ControllerDccpp *)DcDccController::pController)->StartProgramMode();
 		showValue = true;
 	}
 
@@ -70,12 +70,12 @@ void WindowCv::Event(byte inEventType, LcdUi *inpLcd)
 			if (this->valueEdited)
 			{
 				if (!this->undefValue)
-					((ControlerDccpp *)DcDccControler::pControler)->WriteCv(this->cvAddress, this->value);
+					((ControllerDccpp *)DcDccController::pController)->WriteCv(this->cvAddress, this->value);
 			}
 			else
 			{
 				this->valueEdited = true;
-				int val = ((ControlerDccpp *)DcDccControler::pControler)->ReadCv(this->cvAddress);
+				int val = ((ControllerDccpp *)DcDccController::pController)->ReadCv(this->cvAddress);
 				this->undefValue = (val < 0);
 				if (val >= 0)
 					this->value = val;
@@ -94,7 +94,7 @@ void WindowCv::Event(byte inEventType, LcdUi *inpLcd)
 			else
 			{
 				this->state = STATE_ABORTED;
-				//((ControlerDccpp *)DcDccControler::pControler)->EndProgramMode();
+				//((ControllerDccpp *)DcDccController::pController)->EndProgramMode();
 			}
 			break;
 	}

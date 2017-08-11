@@ -1,8 +1,8 @@
 /*************************************************************
-project: <Dc/Dcc Controler>
+project: <Dc/Dcc Controller>
 author: <Thierry PARIS>
-description: <Base Controler>
+description: <Base Controller>
 *************************************************************/
 
-#include "DcDccNanoControler.h"
-#include "Controler.hpp"
+#include "DcDccNanoController.h"
+#include "Controller.hpp"

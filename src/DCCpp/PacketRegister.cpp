@@ -8,7 +8,7 @@ Part of DCC++ BASE STATION for the Arduino
 
 **********************************************************************/
 
-#include "../DcDccNanoControler.h"
+#include "../DcDccNanoController.h"
 //#include "DCCpp_Uno.h"
 //#include "PacketRegister.h"
 //#include "Comm.h"

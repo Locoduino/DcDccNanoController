@@ -2,7 +2,7 @@
 #ifndef __windowLocoControl_H__
 #define __windowLocoControl_H__
 //-------------------------------------------------------------------
-#include "DcDccNanoControler.h"
+#include "DcDccNanocontroller.h"
 //-------------------------------------------------------------------
 
 #define WINDOWTYPE_LOCOCONTROL	14

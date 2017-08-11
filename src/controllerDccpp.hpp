@@ -1,9 +1,9 @@
 //-------------------------------------------------------------------
-#ifndef __controlerDccpp_H__
-#define __controlerDccpp_H__
+#ifndef __ControllerDccpp_H__
+#define __ControllerDccpp_H__
 //-------------------------------------------------------------------
 
-#include "Controler.hpp"
+#include "Controller.hpp"
 
 #ifdef VISUALSTUDIO1
 #include "../VStudio/DCCpp.hpp"
@@ -18,7 +18,7 @@
 
 //-------------------------------------------------------------------
 
-class ControlerDccpp : public Controler
+class ControllerDccpp : public Controller
 {
 	private:
 		bool programMode;
@@ -31,7 +31,7 @@ class ControlerDccpp : public Controler
 	public:
 		static volatile RegisterList mainRegs, progRegs;
 
-		ControlerDccpp();
+		ControllerDccpp();
 		
 	public:
 		void begin();
@@ -47,8 +47,8 @@ class ControlerDccpp : public Controler
 		void StartProgramMode();
 		void EndProgramMode();
 
-		inline byte GetFunctionAddress(byte inFunctionNumber) const { return this->pControled->Functions[inFunctionNumber].DccIdFunction; }
-		inline void SetFunctionAddress(byte inFunctionNumber, byte inDccAddress) { this->pControled->Functions[inFunctionNumber].DccIdFunction = inDccAddress; }
+		inline byte GetFunctionAddress(byte inFunctionNumber) const { return this->pControlled->Functions[inFunctionNumber].DccIdFunction; }
+		inline void SetFunctionAddress(byte inFunctionNumber, byte inDccAddress) { this->pControlled->Functions[inFunctionNumber].DccIdFunction = inDccAddress; }
 
 #ifdef DDC_DEBUG_MODE
 		static void showConfiguration();

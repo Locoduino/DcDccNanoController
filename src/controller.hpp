@@ -1,20 +1,20 @@
 //-------------------------------------------------------------------
-#ifndef __controler_H__
-#define __controler_H__
+#ifndef __Controller_H__
+#define __Controller_H__
 //-------------------------------------------------------------------
 
-class Controler
+class Controller
 {
 protected:
-	Locomotive *pControled;
+	Locomotive *pControlled;
 	bool panicStopped;
 	byte maxSpeed;
 
 public:
-	inline Controler() { this->pControled = 0; this->panicStopped = false; this->maxSpeed = 128; }
+	inline Controller() { this->pControlled = 0; this->panicStopped = false; this->maxSpeed = 128; }
 		
 	public:
-		inline void SetControled(Locomotive *inpControled) { this->pControled = inpControled; }
+		inline void SetControlled(Locomotive *inpControlled) { this->pControlled = inpControlled; }
 		inline virtual void begin() {}
 		inline virtual void beginMain(uint8_t DirectionMotor, uint8_t DccSignalPin, uint8_t SignalEnablePin, uint8_t CurrentMonitor) {}
 		inline virtual void beginProg(uint8_t DirectionMotor, uint8_t DccSignalPin, uint8_t SignalEnablePin, uint8_t CurrentMonitor) {}

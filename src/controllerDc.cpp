@@ -1,20 +1,20 @@
 /*************************************************************
-project: <Dc/Dcc Controler>
+project: <Dc/Dcc Controller>
 author: <Thierry PARIS>
-description: <Dc Controler>
+description: <Dc Controller>
 *************************************************************/
 
-#include "DcDccNanoControler.h"
-#include "ControlerDc.hpp"
+#include "DcDccNanoController.h"
+#include "ControllerDc.hpp"
 
 //													1024 256 128 64	32	8  1  ---
-const byte ControlerDc::divisors_11_3_pow2[]{ 10,  8,  7, 6, 5, 3, 0, 255 };
+const byte ControllerDc::divisors_11_3_pow2[]{ 10,  8,  7, 6, 5, 3, 0, 255 };
 
-void ControlerDc::begin()
+void ControllerDc::begin()
 { 
 }
 
-void ControlerDc::beginMain(uint8_t inDummy, uint8_t SignalPin, uint8_t SignalEnablePin, uint8_t CurrentMonitor)
+void ControllerDc::beginMain(uint8_t inDummy, uint8_t SignalPin, uint8_t SignalEnablePin, uint8_t CurrentMonitor)
 {
 	this->dcPWMpin = SignalEnablePin;
 	this->dcDirPin = SignalPin;
@@ -25,25 +25,25 @@ void ControlerDc::beginMain(uint8_t inDummy, uint8_t SignalPin, uint8_t SignalEn
 	if (CurrentMonitor != 255)
 		pinMode(this->dcCurrentMonitor, INPUT);
 	analogWrite(this->dcPWMpin, 0);
-	SetFrequencyDivisorRaw(ControlerDc::GetFrequencyDivisor(this->DCFrequencyDivisorIndex));
+	SetFrequencyDivisorRaw(ControllerDc::GetFrequencyDivisor(this->DCFrequencyDivisorIndex));
 
 #ifdef DDC_DEBUG_MODE
 	Serial.println(F("Dc mode."));
 #endif
 }
 
-bool ControlerDc::SetSpeed(int inNewSpeed)
+bool ControllerDc::SetSpeed(int inNewSpeed)
 {
 	int val;
 
 #ifdef DDC_DEBUG_MODE
-	Serial.print(F("ControlerDc SetSpeed "));
+	Serial.print(F("ControllerDc SetSpeed "));
 	Serial.println(inNewSpeed);
 #endif
 
-	val = map(inNewSpeed, 0, this->pControled->GetSteps(), 0, 255);
+	val = map(inNewSpeed, 0, this->pControlled->GetSteps(), 0, 255);
 
-	if (this->pControled->GetMappedSpeed() == val)
+	if (this->pControlled->GetMappedSpeed() == val)
 		return false;
 
 #ifdef DDC_DEBUG_MODE
@@ -53,42 +53,42 @@ bool ControlerDc::SetSpeed(int inNewSpeed)
 	Serial.println(val);
 #endif
 	analogWrite(this->dcPWMpin, val);
-	if (this->pControled->GetDirectionToLeft())
+	if (this->pControlled->GetDirectionToLeft())
 		digitalWrite(this->dcDirPin, LOW);
 	else
 		digitalWrite(this->dcDirPin, HIGH);
 
-	this->pControled->SetMappedSpeed(val);
+	this->pControlled->SetMappedSpeed(val);
 
 	return true;
 }
 
-void ControlerDc::SetSlowMode(bool inSlowMode) 
+void ControllerDc::SetSlowMode(bool inSlowMode) 
 { 
 	this->slowMode = inSlowMode; 
 	this->maxSpeed = inSlowMode ? SLOWMODELIMIT : 255; 
 
-	if (this->pControled->GetMappedSpeed() > this->maxSpeed)
+	if (this->pControlled->GetMappedSpeed() > this->maxSpeed)
 		SetSpeed(this->maxSpeed);
 }
 
 
-bool ControlerDc::SetDirection(bool inToLeft)
+bool ControllerDc::SetDirection(bool inToLeft)
 {
-	if (this->pControled->GetDirectionToLeft() == inToLeft)
+	if (this->pControlled->GetDirectionToLeft() == inToLeft)
 		return false;
 
 #ifdef DDC_DEBUG_MODE
-	Serial.print(F("ControlerDc SetDirection "));
+	Serial.print(F("ControllerDc SetDirection "));
 	Serial.println(inToLeft ? F("ToLeft"):F("ToRight"));
 #endif
 
-	this->pControled->SetDirectionToLeft(inToLeft);
+	this->pControlled->SetDirectionToLeft(inToLeft);
 	this->SetSpeed(0);
 	return true;
 }
 
-void ControlerDc::PanicStop(bool inStop) 
+void ControllerDc::PanicStop(bool inStop) 
 {
 	if (this->panicStopped == inStop)
 		return;
@@ -97,7 +97,7 @@ void ControlerDc::PanicStop(bool inStop)
 	if (inStop)
 	{
 #ifdef DDC_DEBUG_MODE
-		Serial.println(F("ControlerDc PanicStop pressed"));
+		Serial.println(F("ControllerDc PanicStop pressed"));
 #endif
 
 		analogWrite(this->dcPWMpin, 0);
@@ -105,17 +105,17 @@ void ControlerDc::PanicStop(bool inStop)
 	else
 	{
 #ifdef DDC_DEBUG_MODE
-		Serial.println(F("ControlerDc PanicStop canceled"));
+		Serial.println(F("ControllerDc PanicStop canceled"));
 #endif
-		analogWrite(this->dcPWMpin, this->pControled->GetMappedSpeed());
-		if (this->pControled->GetDirectionToLeft())
+		analogWrite(this->dcPWMpin, this->pControlled->GetMappedSpeed());
+		if (this->pControlled->GetDirectionToLeft())
 			digitalWrite(this->dcDirPin, LOW);
 		else
 			digitalWrite(this->dcDirPin, HIGH);
 	}
 }
 
-void ControlerDc::BuildFreqString(unsigned int inDivisor)
+void ControllerDc::BuildFreqString(unsigned int inDivisor)
 {
 	unsigned int val = BASE_PWM_FREQ_11_3 / inDivisor;
 
@@ -128,14 +128,14 @@ void ControlerDc::BuildFreqString(unsigned int inDivisor)
 	LcdScreen::buffer[len] = 0;
 }
 
-void ControlerDc::SetFrequencyDivisorIndex(byte inDivisorIndex)
+void ControllerDc::SetFrequencyDivisorIndex(byte inDivisorIndex)
 {
 	this->DCFrequencyDivisorIndex = inDivisorIndex;
 
-	this->SetFrequencyDivisorRaw(1 << ControlerDc::divisors_11_3_pow2[inDivisorIndex]);
+	this->SetFrequencyDivisorRaw(1 << ControllerDc::divisors_11_3_pow2[inDivisorIndex]);
 }
 
-void ControlerDc::SetFrequencyDivisorRaw(unsigned int inDivisor)
+void ControllerDc::SetFrequencyDivisorRaw(unsigned int inDivisor)
 {
 	byte mode;
 	if (this->dcPWMpin == 5 || this->dcPWMpin == 6 || this->dcPWMpin == 9 || this->dcPWMpin == 10) 

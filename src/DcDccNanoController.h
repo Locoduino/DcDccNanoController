@@ -1,6 +1,6 @@
 //-------------------------------------------------------------------
-#ifndef __dcDccNanoControler_H__
-#define __dcDccNanoControler_H__
+#ifndef __dcDccNanoController_H__
+#define __dcDccNanoController_H__
 //-------------------------------------------------------------------
 
 // This file is just a link to the real include file...
@@ -22,13 +22,10 @@
 #ifdef VISUALSTUDIO
 #define DDC_DEBUG_MODE
 #define ARDUINO_AVR_MEGA	// for test
-#include "../../DIO2/VStudio/DIO2.h"
 #else
 #if !defined(ARDUINO_AVR_UNO) && !defined(ARDUINO_AVR_NANO)      // Must be compiled for UNO or NANO
-#error DcDccNanoControler can only work for Arduino UNO or NANO !
+	#error DcDccNanoController can only work for Arduino UNO or NANO !
 #endif
-
-#include "DIO2.h"
 #endif
 
 #ifndef __LcdUi_H__
@@ -36,15 +33,6 @@
 #endif
 
 #define FUNCTION_NUMBER		2
-
-#ifdef DDC_DEBUG_MODE
-static void CheckPinNb(GPIO_pin_t inPin, const __FlashStringHelper *inFunc);
-static void CheckPinNb(int inPin, const __FlashStringHelper *inFunc);
-
-#define CHECKPIN(val, text)		CheckPinNb(cval, text)
-#else
-#define CHECKPIN(val, text)
-#endif
 
 extern const char * const DDC_config_table[] PROGMEM;
 extern const char * const string_table[] PROGMEM;
@@ -55,7 +43,7 @@ extern const char * const string_table[] PROGMEM;
 const char str_title[] PROGMEM = "Dc/Dcc Nano V0.1";
 const char str_copyright[] PROGMEM = "By Thierry Paris";
 #else
-const char str_title[] PROGMEM = "Dc/Dcc Nano Controler V0.1";
+const char str_title[] PROGMEM = "Dc/Dcc Nano Controller V0.1";
 const char str_copyright[] PROGMEM = "By Thierry Paris";
 #endif
 
@@ -135,17 +123,14 @@ const char * const DcDccStringTable[] PROGMEM
 
 enum DcDcc
 {
-	DcChangeStopped,
-	PanicStopped,
-	ProgramMode,
 	Dc,
 	Dcc
 };
 
 #include "Locomotive.hpp"
 
-#include "ControlerDc.hpp"
-#include "ControlerDccpp.hpp"
+#include "ControllerDc.hpp"
+#include "ControllerDccpp.hpp"
 
 #include "Handle.hpp"
 
@@ -157,19 +142,18 @@ enum DcDcc
 #define WINDOWTYPE_INTERRUPT_EMERGENCY	10
 #define EEPROM_DDC_CONFIG_SIZE			64
 
-#include <LcdEvents.h>
+#include "LcdEvents.h"
 
-class DcDccControler
+class DcDccController
 {
 public:
 	static DcDcc dcType;
-	static DcDcc dcTypeAtStart;
 	static Handle handle;
 	//static int handleAddcounter;
-	static Controler *pControler;
+	static Controller *pController;
 
 private:
-	DcDccControler() {}
+	DcDccController() {}
 
 	static bool beginFinished;
 	static void beforeFirstLoop();

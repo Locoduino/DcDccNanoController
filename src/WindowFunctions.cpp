@@ -4,7 +4,7 @@ author: <Thierry PARIS>
 description: <Class for a Cv edition>
 *************************************************************/
 
-#include "DcDccNanoControler.h"
+#include "DcDccNanoController.h"
 #include "WindowFunctions.hpp"
 
 void WindowFunctions::begin(byte inFirstLine)
@@ -75,7 +75,7 @@ void WindowFunctions::Event(byte inEventType, LcdUi *inpLcd)
 			}
 			else
 			{
-				((ControlerDccpp *)DcDccControler::pControler)->SetFunctionAddress(this->fAddress, this->value);
+				((ControllerDccpp *)DcDccController::pController)->SetFunctionAddress(this->fAddress, this->value);
 				this->valueEdited = false;
 				refresh = true;
 			}
@@ -94,7 +94,7 @@ void WindowFunctions::Event(byte inEventType, LcdUi *inpLcd)
 	}
 
 	if (refreshValue)
-		this->value = ((ControlerDccpp *)DcDccControler::pControler)->GetFunctionAddress(this->fAddress);
+		this->value = ((ControllerDccpp *)DcDccController::pController)->GetFunctionAddress(this->fAddress);
 
 	if (refresh)
 	{

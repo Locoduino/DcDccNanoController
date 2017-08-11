@@ -1,7 +1,7 @@
 /*************************************************************
-project: <Dc/Dcc Controler>
+project: <Dc/Dcc Controller>
 author: <Thierry PARIS>
-description: <Dcc++ Controler>
+description: <Dcc++ Controller>
 *************************************************************/
 
 /**********************************************************************
@@ -172,9 +172,9 @@ DCC++ BASE STATION is configured through the Config.h file that contains all use
 
 **********************************************************************/
 
-#include "DcDccNanoControler.h"
+#include "DcDccNanoController.h"
 #include "arduino.h"
-#include "ControlerDccpp.hpp"
+#include "ControllerDccpp.hpp"
 
 // SET UP COMMUNICATIONS INTERFACE - FOR STANDARD SERIAL, NOTHING NEEDS TO BE DONE
 
@@ -186,13 +186,13 @@ EthernetServer INTERFACE(ETHERNET_PORT);                  // Create and instance
 														  // NEXT DECLARE GLOBAL OBJECTS TO PROCESS AND STORE DCC PACKETS AND MONITOR TRACK CURRENTS.
 														  // NOTE REGISTER LISTS MUST BE DECLARED WITH "VOLATILE" QUALIFIER TO ENSURE THEY ARE PROPERLY UPDATED BY INTERRUPT ROUTINES
 
-volatile RegisterList ControlerDccpp::mainRegs(MAX_MAIN_REGISTERS);    // create list of registers for MAX_MAIN_REGISTER Main Track Packets
-volatile RegisterList ControlerDccpp::progRegs(2);                     // create a shorter list of only two registers for Program Track Packets
+volatile RegisterList ControllerDccpp::mainRegs(MAX_MAIN_REGISTERS);    // create list of registers for MAX_MAIN_REGISTER Main Track Packets
+volatile RegisterList ControllerDccpp::progRegs(2);                     // create a shorter list of only two registers for Program Track Packets
 
 CurrentMonitor mainMonitor;  // create monitor for current on Main Track
 CurrentMonitor progMonitor;  // create monitor for current on Program Track
 
-ControlerDccpp::ControlerDccpp() 
+ControllerDccpp::ControllerDccpp() 
 { 
 	this->programMode = false; 
 	this->maxSpeed = 127; 
@@ -216,7 +216,7 @@ static bool first = true;
 // MAIN ARDUINO LOOP
 ///////////////////////////////////////////////////////////////////////////////
 
-void ControlerDccpp::loop()
+void ControllerDccpp::loop()
 {
 	//SerialCommand::process();              // check for, and process, and new serial commands
 
@@ -261,7 +261,7 @@ void ControlerDccpp::loop()
 // beginMain(255, DCC_SIGNAL_PIN_MAIN, 3, A0);
 // beginProg(255, DCC_SIGNAL_PIN_PROG, 11, A1);
 
-void ControlerDccpp::beginMain(uint8_t inDirectionMotor, uint8_t Dummy, uint8_t inSignalEnable, uint8_t inCurrentMonitor)
+void ControllerDccpp::beginMain(uint8_t inDirectionMotor, uint8_t Dummy, uint8_t inSignalEnable, uint8_t inCurrentMonitor)
 {
 	DccppConfig::DirectionMotorA = inDirectionMotor;
 	DccppConfig::SignalEnablePinMain = inSignalEnable;	// PWM
@@ -316,7 +316,7 @@ void ControlerDccpp::beginMain(uint8_t inDirectionMotor, uint8_t Dummy, uint8_t 
 	digitalWrite(DccppConfig::SignalEnablePinMain, LOW);
 }
 
-void ControlerDccpp::beginProg(uint8_t inDirectionMotor, uint8_t inSignalPin, uint8_t inSignalEnable, uint8_t inCurrentMonitor)
+void ControllerDccpp::beginProg(uint8_t inDirectionMotor, uint8_t inSignalPin, uint8_t inSignalEnable, uint8_t inCurrentMonitor)
 {
 	DccppConfig::DirectionMotorB = inDirectionMotor;
 	DccppConfig::SignalEnablePinProg = inSignalEnable;
@@ -414,7 +414,7 @@ void ControlerDccpp::beginProg(uint8_t inDirectionMotor, uint8_t inSignalPin, ui
 	digitalWrite(DccppConfig::SignalEnablePinProg, LOW);
 }
 
-void ControlerDccpp::begin()
+void ControllerDccpp::begin()
 {
 #ifdef SDCARD_CS
 	pinMode(SDCARD_CS, OUTPUT);
@@ -505,19 +505,19 @@ void ControlerDccpp::begin()
 // NOW USE THE ABOVE MACRO TO CREATE THE CODE FOR EACH INTERRUPT
 
 ISR(TIMER1_COMPB_vect) {              // set interrupt service for OCR1B of TIMER-1 which flips direction bit of Motor Shield Channel A controlling Main Track
-	DCC_SIGNAL(ControlerDccpp::mainRegs, 1)
+	DCC_SIGNAL(ControllerDccpp::mainRegs, 1)
 }
 
 #if defined(ARDUINO_AVR_UNO) || defined(ARDUINO_AVR_NANO)      // Configuration for UNO
 
 ISR(TIMER0_COMPB_vect) {              // set interrupt service for OCR1B of TIMER-0 which flips direction bit of Motor Shield Channel B controlling Prog Track
-	DCC_SIGNAL(ControlerDccpp::progRegs, 0)
+	DCC_SIGNAL(ControllerDccpp::progRegs, 0)
 }
 
 #else      // Configuration for MEGA
 
 ISR(TIMER3_COMPB_vect) {              // set interrupt service for OCR3B of TIMER-3 which flips direction bit of Motor Shield Channel B controlling Prog Track
-	DCC_SIGNAL(ControlerDccpp::progRegs, 3)
+	DCC_SIGNAL(ControllerDccpp::progRegs, 3)
 }
 
 #endif
@@ -527,7 +527,7 @@ ISR(TIMER3_COMPB_vect) {              // set interrupt service for OCR3B of TIME
 // PRINT CONFIGURATION INFO TO SERIAL PORT REGARDLESS OF INTERFACE TYPE
 // - ACTIVATED ON STARTUP IF SHOW_CONFIG_PIN IS TIED HIGH 
 
-void ControlerDccpp::showConfiguration() 
+void ControllerDccpp::showConfiguration() 
 {
 
 	int mac_address[] = MAC_ADDRESS;
@@ -618,17 +618,17 @@ void ControlerDccpp::showConfiguration()
 }
 #endif
 
-void ControlerDccpp::SetSpeedRaw()
+void ControllerDccpp::SetSpeedRaw()
 {
 	byte state = HIGH;
 
 	if (this->panicStopped)
 	{
-		this->mainRegs.setThrottle(1, this->pControled->GetDccId(), 1, this->pControled->GetDirectionToLeft());
+		this->mainRegs.setThrottle(1, this->pControlled->GetDccId(), 1, this->pControlled->GetDirectionToLeft());
 		state = LOW;
 	}
 	else
-		this->mainRegs.setThrottle(1, this->pControled->GetDccId(), this->pControled->GetMappedSpeed(), this->pControled->GetDirectionToLeft());
+		this->mainRegs.setThrottle(1, this->pControlled->GetDccId(), this->pControlled->GetMappedSpeed(), this->pControlled->GetDirectionToLeft());
 
 	if (DccppConfig::SignalEnablePinMain != 255)
 		digitalWrite(DccppConfig::SignalEnablePinMain, state);
@@ -636,48 +636,48 @@ void ControlerDccpp::SetSpeedRaw()
 		digitalWrite(DccppConfig::SignalEnablePinProg, state);
 }
 
-bool ControlerDccpp::SetSpeed(int inNewSpeed)
+bool ControllerDccpp::SetSpeed(int inNewSpeed)
 {
 	int val = 0;
 	
 	if (inNewSpeed > 0)
-		val = map(inNewSpeed, 0, this->pControled->GetSteps(), 2, 127);
+		val = map(inNewSpeed, 0, this->pControlled->GetSteps(), 2, 127);
 
-	if (this->pControled->GetMappedSpeed() == val)
+	if (this->pControlled->GetMappedSpeed() == val)
 		return false;
 
 #ifdef DDC_DEBUG_MODE
-	Serial.print(F("ControlerDccpp SetSpeed "));
+	Serial.print(F("ControllerDccpp SetSpeed "));
 	Serial.print(inNewSpeed);
 	Serial.print(F("/"));
-	Serial.print(this->pControled->GetSteps());
+	Serial.print(this->pControlled->GetSteps());
 	Serial.print(F(" (in Dcc "));
 	Serial.print(val);
 	Serial.println(F(" )"));
 #endif
 
-	this->pControled->SetMappedSpeed(val);
+	this->pControlled->SetMappedSpeed(val);
 	this->SetSpeedRaw();
 
 	return true;
 }
 
-bool ControlerDccpp::SetDirection(bool inToLeft)
+bool ControllerDccpp::SetDirection(bool inToLeft)
 {
-	if (this->pControled->GetDirectionToLeft() == inToLeft)
+	if (this->pControlled->GetDirectionToLeft() == inToLeft)
 		return false;
 
 #ifdef DDC_DEBUG_MODE
-	Serial.print(F("ControlerDccpp SetDirection "));
+	Serial.print(F("ControllerDccpp SetDirection "));
 	Serial.println(inToLeft ? F("ToLeft") : F("ToRight"));
 #endif
 
-	this->pControled->SetDirectionToLeft(inToLeft);
+	this->pControlled->SetDirectionToLeft(inToLeft);
 	this->SetSpeed(0);
 	return true;
 }
 
-void ControlerDccpp::SetFunctionsRaw()
+void ControllerDccpp::SetFunctionsRaw()
 {
 	byte flags = 0;
 
@@ -689,7 +689,7 @@ void ControlerDccpp::SetFunctionsRaw()
 
 	for (int i = 0; i < FUNCTION_NUMBER; i++)
 	{
-		byte func = this->pControled->Functions[i].DccIdFunction;
+		byte func = this->pControlled->Functions[i].DccIdFunction;
 		if (func <= 4)
 		{
 			/*
@@ -700,7 +700,7 @@ void ControlerDccpp::SetFunctionsRaw()
 			*/
 
 			flags |= 1;
-			if (this->pControled->Functions[i].IsActivated())
+			if (this->pControlled->Functions[i].IsActivated())
 			{
 				if (func == 0)
 					oneByte1 += 16;
@@ -718,7 +718,7 @@ void ControlerDccpp::SetFunctionsRaw()
 			*/
 
 			flags |= 2;
-			if (this->pControled->Functions[i].IsActivated())
+			if (this->pControlled->Functions[i].IsActivated())
 				twoByte1 += (1 << (func - 5));
 		}
 		else if (func <= 12)
@@ -731,7 +731,7 @@ void ControlerDccpp::SetFunctionsRaw()
 			*/
 
 			flags |= 4;
-			if (this->pControled->Functions[i].IsActivated())
+			if (this->pControlled->Functions[i].IsActivated())
 				threeByte1 += (1 << (func - 9));
 		}
 		else if (func <= 20)
@@ -744,7 +744,7 @@ void ControlerDccpp::SetFunctionsRaw()
 			*/
 
 			flags |= 8;
-			if (this->pControled->Functions[i].IsActivated())
+			if (this->pControlled->Functions[i].IsActivated())
 				fourByte2 += (1 << (func - 13));
 		}
 		else if (func <= 28)
@@ -757,43 +757,43 @@ void ControlerDccpp::SetFunctionsRaw()
 			*/
 
 			flags |= 16;
-			if (this->pControled->Functions[i].IsActivated())
+			if (this->pControlled->Functions[i].IsActivated())
 				fiveByte2 += (1 << (func - 21));
 		}
 	}
 
 	if (flags & 1)
-		this->mainRegs.setFunction(this->pControled->GetDccId(), oneByte1, -1);
+		this->mainRegs.setFunction(this->pControlled->GetDccId(), oneByte1, -1);
 	if (flags & 2)
-		this->mainRegs.setFunction(this->pControled->GetDccId(), twoByte1, -1);
+		this->mainRegs.setFunction(this->pControlled->GetDccId(), twoByte1, -1);
 	if (flags & 4)
-		this->mainRegs.setFunction(this->pControled->GetDccId(), threeByte1, -1);
+		this->mainRegs.setFunction(this->pControlled->GetDccId(), threeByte1, -1);
 	if (flags & 8)
-		this->mainRegs.setFunction(this->pControled->GetDccId(), 222, fourByte2);
+		this->mainRegs.setFunction(this->pControlled->GetDccId(), 222, fourByte2);
 	if (flags & 16)
-		this->mainRegs.setFunction(this->pControled->GetDccId(), 223, fiveByte2);
+		this->mainRegs.setFunction(this->pControlled->GetDccId(), 223, fiveByte2);
 }
 
-void ControlerDccpp::SetFunction(byte inFunctionNumber, bool inActivate)
+void ControllerDccpp::SetFunction(byte inFunctionNumber, bool inActivate)
 {
-	Function &f = this->pControled->Functions[inFunctionNumber];
+	Function &f = this->pControlled->Functions[inFunctionNumber];
 	f.SetActivated(inActivate);
 
 #ifdef DDC_DEBUG_MODE
-	Serial.print(F("ControlerDccpp SetFunction "));
-	Serial.print(this->pControled->Functions[inFunctionNumber].DccIdFunction);
-	Serial.println(this->pControled->Functions[inFunctionNumber].IsActivated() ? F(" On") : F(" Off"));
+	Serial.print(F("ControllerDccpp SetFunction "));
+	Serial.print(this->pControlled->Functions[inFunctionNumber].DccIdFunction);
+	Serial.println(this->pControlled->Functions[inFunctionNumber].IsActivated() ? F(" On") : F(" Off"));
 #endif
 
 	this->SetFunctionsRaw();
 }
 
-void ControlerDccpp::PanicStop(bool inStop)
+void ControllerDccpp::PanicStop(bool inStop)
 {
 	this->panicStopped = inStop;
 
 #ifdef DDC_DEBUG_MODE
-	Serial.print(F("ControlerDccpp PanicStop "));
+	Serial.print(F("ControllerDccpp PanicStop "));
 	Serial.println(inStop ? F("pressed"):F("canceled"));
 #endif
 
@@ -802,29 +802,29 @@ void ControlerDccpp::PanicStop(bool inStop)
 		this->SetFunctionsRaw();
 }
 
-void ControlerDccpp::StartProgramMode()
+void ControllerDccpp::StartProgramMode()
 {
 	this->programMode = true;
 }
 
-void ControlerDccpp::EndProgramMode()
+void ControllerDccpp::EndProgramMode()
 {
 	this->programMode = false;
 }
 
-void ControlerDccpp::WriteCv(int inCv, byte inValue)
+void ControllerDccpp::WriteCv(int inCv, byte inValue)
 {
 	this->mainRegs.writeCVByte(inCv, inValue, 100, 101);
 
 #ifdef DDC_DEBUG_MODE
-	Serial.print(F("ControlerDccpp WriteCv "));
+	Serial.print(F("ControllerDccpp WriteCv "));
 	Serial.print(inCv);
 	Serial.print(F(" : "));
 	Serial.println(inValue);
 #endif
 }
 
-int ControlerDccpp::ReadCv(byte inCv)
+int ControllerDccpp::ReadCv(byte inCv)
 {
 	return this->mainRegs.readCVmain(1, 100+inCv, 100+inCv);
 }
