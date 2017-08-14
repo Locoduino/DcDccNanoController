@@ -15,7 +15,7 @@ const char  str_stop[] PROGMEM =			"Arret general";
 const char  str_stop2[] PROGMEM =			"Appuyer annul";
 const char  str_modemodechoice[] PROGMEM =	"DDC menu:";
 const char  str_modelococtrl[] PROGMEM =	"Controler loco";
-const char  str_modeconfig[] PROGMEM =		"Config DDC";
+const char  str_modeconfig[] PROGMEM =		"Config DDc";
 const char  str_yes[] PROGMEM =				"oui";
 const char  str_no[] PROGMEM =				"non";
 const char  str_confirm[] PROGMEM =			"Sur ?";
@@ -27,7 +27,7 @@ const char  str_locoSteps[] PROGMEM =		"Nb Pas vitesse";
 const char  str_locoSteps14[] PROGMEM =		"14";
 const char  str_locoSteps28[] PROGMEM =		"28";
 const char  str_locoSteps128[] PROGMEM =	"128";
-const char  str_functions[] PROGMEM =		"Modif Fonctions";
+const char  str_functions[] PROGMEM =		"Fonctions";
 const char  str_dcslow[] PROGMEM =			"Dc lent";
 const char  str_programcv[] PROGMEM =		"Modifier Cv";
 
