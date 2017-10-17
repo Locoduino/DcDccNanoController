@@ -82,6 +82,11 @@ void DcDccController::beginProg(uint8_t DirectionMotor, uint8_t SignalPin, uint8
 	DcDccController::pController->beginProg(DirectionMotor, SignalPin, SignalEnablePin, CurrentMonitor);
 }
 
+void DcDccController::setAccessory(int inAddress, byte inSubAddress, bool inActivate)
+{
+	DcDccController::pController->SetAccessory(inAddress, inSubAddress, inActivate);
+}
+
 void DcDccController::beforeFirstLoop()
 {
 	if (DcDccController::dcType == Dc)

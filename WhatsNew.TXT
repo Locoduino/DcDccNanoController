@@ -1,3 +1,8 @@
+17/10/2017 V1.11
+	- Ajout de setAccessory à la classe DcDccController.
+
+	- setAccessory added to DcDccController.
+
 17/10/2017 V1.1
 	- Ajout de ArduiEmulator dans extras.
 	- Retrait de toutes les fonctions texte.

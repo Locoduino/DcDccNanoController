@@ -40,10 +40,10 @@ extern const char * const string_table[] PROGMEM;
 #if defined(__DDCLanguage_H__)
 
 #ifdef SHORTLENGTH_MSG
-const char str_title[] PROGMEM =     "DcDcc Nano V1.10";
+const char str_title[] PROGMEM =     "DcDcc Nano V1.11";
 const char str_copyright[] PROGMEM = "By Thierry Paris";
 #else
-const char str_title[] PROGMEM = "Dc/Dcc Nano Controller V1.10";
+const char str_title[] PROGMEM = "DcDcc Nano Controller V1.11";
 const char str_copyright[] PROGMEM = "By Thierry Paris";
 #endif
 
@@ -162,6 +162,7 @@ public:
 	static void begin(uint8_t inDcDccSelectPin, LcdScreen *apScreen);
 	static void beginMain(uint8_t DirectionMotor, uint8_t DccSignalPin, uint8_t SignalEnablePin, uint8_t CurrentMonitor);
 	static void beginProg(uint8_t DirectionMotor, uint8_t DccSignalPin, uint8_t SignalEnablePin, uint8_t CurrentMonitor);
+	static void setAccessory(int inAddress, byte inSubAddress, bool inActivate);
 	//static void AddHandle(Handle *pHandle);
 	//static byte IndexOf(Handle *inpHandle);
 
