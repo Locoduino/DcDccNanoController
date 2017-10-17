@@ -66,7 +66,7 @@ struct RegisterList{
   void writeCVBitMain(char *s) volatile;
 
   void setThrottle(int nReg, int cab, int tSpeed, int tDirection) volatile;
-  void setFunction(int cab, int fByte, int eByte) volatile;
+  void setFunction(int nReg, int cab, int fByte, int eByte) volatile;
   void setAccessory(int aAdd, int aNum, int activate) volatile;
   void writeTextPacket(int nReg, byte *b, int nBytes) volatile;
   void readCV(int cv, int callBack, int callBackSub) volatile;

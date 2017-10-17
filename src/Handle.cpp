@@ -146,8 +146,6 @@ void Handle::Clear()
 	this->MoreLessIncrement = 10;
 }
 
-//#define DDC_DEBUG_MODE
-
 void Handle::SetControlledLocomotive(Locomotive &inLocomotive)
 {
 #ifdef DDC_DEBUG_MODE

@@ -55,7 +55,7 @@ RegisterList::RegisterList(int maxNumRegs){
 void RegisterList::loadPacket(int nReg, byte *b, int nBytes, int nRepeat, int printFlag) volatile 
 {  
 #ifdef VISUALSTUDIO
-  return;
+  //return;
 #endif
   nReg=nReg%((maxNumRegs+1));          // force nReg to be between 0 and maxNumRegs, inclusive
 
@@ -147,22 +147,9 @@ void RegisterList::setThrottle(int nReg, int cab, int tSpeed, int tDirection) vo
 
 } // RegisterList::setThrottle(ints)
 
-void RegisterList::setThrottle(char *s) volatile
-{
-  int nReg;
-  int cab;
-  int tSpeed;
-  int tDirection;
-  
-  if(sscanf(s,"%d %d %d %d",&nReg,&cab,&tSpeed,&tDirection)!=4)
-    return;
-
-  this->setThrottle(nReg, cab, tSpeed, tDirection);
-} // RegisterList::setThrottle(string)
-
 ///////////////////////////////////////////////////////////////////////////////
 
-void RegisterList::setFunction(int cab, int fByte, int eByte) volatile
+void RegisterList::setFunction(int nReg, int cab, int fByte, int eByte) volatile
 {
 	byte b[5];                      // save space for checksum byte
 	byte nB = 0;
@@ -180,27 +167,9 @@ void RegisterList::setFunction(int cab, int fByte, int eByte) volatile
 		b[nB++] = eByte;
 	}
 
-	loadPacket(0, b, nB, 4, 1);
+	loadPacket(nReg, b, nB, 4, 1);
 
 } // RegisterList::setFunction(ints)
-
-void RegisterList::setFunction(char *s) volatile 
-{
-	int cab;
-	int fByte, eByte;
-	int nParams;
-
-	nParams = sscanf(s, "%d %d %d", &cab, &fByte, &eByte);
-
-	if (nParams<2)
-		return;
-
-	if (nParams == 2)                       // this is a request for functions FL,F1-F12  
-		eByte = -1;
-
-	this->setFunction(cab, fByte, eByte);
-
-} // RegisterList::setFunction(string)
 
   ///////////////////////////////////////////////////////////////////////////////
 
@@ -215,19 +184,6 @@ void RegisterList::setAccessory(int aAdd, int aNum, int activate) volatile
 
 } // RegisterList::setAccessory(ints)
 
-void RegisterList::setAccessory(char *s) volatile 
-{
-	int aAdd;                       // the accessory address (0-511 = 9 bits) 
-	int aNum;                       // the accessory number within that address (0-3)
-	int activate;                   // flag indicated whether accessory should be activated (1) or deactivated (0) following NMRA recommended convention
-
-	if (sscanf(s, "%d %d %d", &aAdd, &aNum, &activate) != 3)
-		return;
-
-	this->setFunction(aAdd, aNum, activate);
-
-} // RegisterList::setAccessory(string)
-
   ///////////////////////////////////////////////////////////////////////////////
 
 void RegisterList::writeTextPacket(int nReg, byte *b, int nBytes) volatile 
@@ -241,18 +197,6 @@ void RegisterList::writeTextPacket(int nReg, byte *b, int nBytes) volatile
 	loadPacket(nReg, b, nBytes, 0, 1);
 
 } // RegisterList::writeTextPacket(bytes)
-
-void RegisterList::writeTextPacket(char *s) volatile 
-{
-	int nReg;
-	byte b[6];
-	int nBytes;
-
-	nBytes = sscanf(s, "%d %hhx %hhx %hhx %hhx %hhx", &nReg, b, b + 1, b + 2, b + 3, b + 4) - 1;
-
-	this->writeTextPacket(nReg, b, nBytes);
-
-} // RegisterList::writeTextPacket(string)
 
   ///////////////////////////////////////////////////////////////////////////////
 
@@ -350,33 +294,13 @@ void RegisterList::readCV(int cv, int callBack, int callBackSub) volatile
 
 } // RegisterList::readCV(ints)
 
-void RegisterList::readCV(char *s) volatile 
-{
-	int cv, callBack, callBackSub;
-
-	if (sscanf(s, "%d %d %d", &cv, &callBack, &callBackSub) != 3)          // cv = 1-1024
-		return;
-
-	this->readCV(cv, callBack, callBackSub);
-} // RegisterList::readCV(string)
-
 int RegisterList::readCVmain(int cv, int callBack, int callBackSub) volatile
 {
 	return RegisterList::readCVraw(cv, callBack, callBackSub, false);
 
 } // RegisterList::readCV_Main()
 
-int RegisterList::readCVmain(char *s) volatile
-{
-	int cv, callBack, callBackSub;
-
-	if (sscanf(s, "%d %d %d", &cv, &callBack, &callBackSub) != 3)          // cv = 1-1024
-		return -1;
-   
-	return this->readCVmain(cv, callBack, callBackSub);
-} // RegisterList::readCVmain(string)
-
-///////////////////////////////////////////////////////////////////////////////
+ ///////////////////////////////////////////////////////////////////////////////
 
 void RegisterList::writeCVByte(int cv, int bValue, int callBack, int callBackSub) volatile 
 {
@@ -433,16 +357,6 @@ void RegisterList::writeCVByte(int cv, int bValue, int callBack, int callBackSub
 #endif
 	}
 } // RegisterList::writeCVByte(ints)
-
-void RegisterList::writeCVByte(char *s) volatile 
-{
-	int bValue, cv, callBack, callBackSub;
-
-	if (sscanf(s, "%d %d %d %d", &cv, &bValue, &callBack, &callBackSub) != 4)          // cv = 1-1024
-		return;
-
-	this->writeCVByte(cv, bValue, callBack, callBackSub);
-} // RegisterList::writeCVByte(string)
 
   ///////////////////////////////////////////////////////////////////////////////
 
@@ -506,16 +420,6 @@ void RegisterList::writeCVBit(int cv, int bNum, int bValue, int callBack, int ca
 	}
 } // RegisterList::writeCVBit(ints)
 
-void RegisterList::writeCVBit(char *s) volatile
-{
-  int bNum, bValue, cv, callBack, callBackSub;
-
-  if(sscanf(s,"%d %d %d %d %d",&cv,&bNum,&bValue,&callBack,&callBackSub) != 5)          // cv = 1-1024
-    return;
-
-  this->writeCVBit(cv, bNum, bValue, callBack, callBackSub);
-} // RegisterList::writeCVBit(string)
-  
 ///////////////////////////////////////////////////////////////////////////////
 
 void RegisterList::writeCVByteMain(int cab, int cv, int bValue) volatile 
@@ -536,18 +440,6 @@ void RegisterList::writeCVByteMain(int cab, int cv, int bValue) volatile
 	loadPacket(0, b, nB, 4);
 
 } // RegisterList::writeCVByteMain(ints)
-
-void RegisterList::writeCVByteMain(char *s) volatile 
-{
-	int cab;
-	int cv;
-	int bValue;
-
-	if (sscanf(s, "%d %d %d", &cab, &cv, &bValue) != 3)
-		return;
-
-	this->writeCVByteMain(cab, cv, bValue);
-} // RegisterList::writeCVByteMain(string)
 
   ///////////////////////////////////////////////////////////////////////////////
 
@@ -573,19 +465,6 @@ void RegisterList::writeCVBitMain(int cab, int cv, int bNum, int bValue) volatil
 
 } // RegisterList::writeCVBitMain(ints)
 
-void RegisterList::writeCVBitMain(char *s) volatile 
-{
-	int cab;
-	int cv;
-	int bNum;
-	int bValue;
-
-	if (sscanf(s, "%d %d %d %d", &cab, &cv, &bNum, &bValue) != 4)
-		return;
-
-	this->writeCVBitMain(cab, cv, bNum, bValue);
-} // RegisterList::writeCVBitMain(string)
-
 ///////////////////////////////////////////////////////////////////////////////
 
 #ifdef DDC_DEBUG_MODE
@@ -601,7 +480,7 @@ void RegisterList::printPacket(int nReg, byte *b, int nBytes, int nRepeat) volat
   }
   INTERFACE.print(" / ");
   INTERFACE.print(nRepeat);
-  INTERFACE.print(">");
+  INTERFACE.println(">");
 } // RegisterList::printPacket()
 #endif
 

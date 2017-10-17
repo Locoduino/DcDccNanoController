@@ -15,6 +15,7 @@ DcDccController			KEYWORD1
 begin					KEYWORD2
 beginMain				KEYWORD2
 beginProg				KEYWORD2
+setAccessory			KEYWORD2
 
 #######################################
 # Constants (LITERAL1)

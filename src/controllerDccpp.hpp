@@ -22,6 +22,8 @@ class ControllerDccpp : public Controller
 {
 	private:
 		bool programMode;
+		byte speedRegister;		// regiter to continuously send speed to the machine
+		byte functionRegister;	// register to continuously send all functions packets to the machine. 
 
 		static CurrentMonitor *mMonitor;
 
@@ -42,6 +44,7 @@ class ControllerDccpp : public Controller
 		int ReadCv(byte inCv);
 		void WriteCv(int inId, byte inCv);
 		void SetFunction(byte inFunctionNumber, bool inActivate);
+		void SetAccessory(int inAddress, byte inSubAddress, bool inActivate);
 		void PanicStop(bool inStop);
 		void loop();
 		void StartProgramMode();

@@ -1,3 +1,16 @@
+17/10/2017 V1.1
+	- Ajout de ArduiEmulator dans extras.
+	- Retrait de toutes les fonctions texte.
+	- Ajout de SetAccessory()
+	- Ajout de speedRegister et functionRegister
+	- Passage des paquets fonction dans un registre continu, pour éviter de perdre les functions.
+
+	- ArduiEmulator added in extras.
+	- All text command functions removed.
+	- SetAccessory() added.
+	- speedRegister and functionRegister added.
+	- function packets use now a continuous register, to avoid losing function.
+
 24/09/2017 V1.0
 	- First validated version !
 

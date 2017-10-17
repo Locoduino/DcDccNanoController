@@ -13,8 +13,6 @@ Handle DcDccController::handle;
 Controller * DcDccController::pController;
 bool DcDccController::beginFinished;
 
-//#define DDC_DEBUG_MODE
-
 void DcDccController::begin(uint8_t inDcDccSelectPin, LcdScreen *apScreen)
 {
 #ifdef DDC_DEBUG_MODE

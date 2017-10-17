@@ -101,9 +101,9 @@ registers numbered 1 through MAX_MAIN_REGISTERS (as defined in DCCpp_Uno.h).
 It is generally considered good practice to continuously send throttle control packets
 to every cab so that if an engine should momentarily lose electrical connectivity with the tracks,
 it will very quickly receive another throttle control signal as soon as connectivity is
-restored (such as when a trin passes over  rough portion of track or the frog of a turnout).
+restored (such as when a train passes over rough portion of track or the frog of a turnout).
 
-DCC++ Base Station therefore sequentially loops through each main operations track packet regsiter
+DCC++ Base Station therefore sequentially loops through each main operations track packet register
 that has been loaded with a throttle control setting for a given cab.  For each register, it
 transmits the appropriate DCC packet bits to the track, then moves onto the next register
 without any pausing to ensure continuous bi-polar power is being provided to the tracks.
@@ -310,7 +310,10 @@ void ControllerDccpp::beginMain(uint8_t inDirectionMotor, uint8_t Dummy, uint8_t
 
 	pinMode(DccppConfig::SignalEnablePinMain, OUTPUT);   // master enable for motor channel A
 
-	mainRegs.loadPacket(1, RegisterList::idlePacket, 2, 0);    // load idle packet into register 1    
+	mainRegs.loadPacket(this->speedRegister, RegisterList::idlePacket, 2, 0);    // load idle packet into register 1
+	mainRegs.nextReg = NULL;
+	mainRegs.loadPacket(this->functionRegister, RegisterList::idlePacket, 2, 0);    // load idle packet into register 2
+	mainRegs.nextReg = NULL;
 
 	bitSet(TIMSK1, OCIE1B);    // enable interrupt vector for Timer 1 Output Compare B Match (OCR1B)    
 	digitalWrite(DccppConfig::SignalEnablePinMain, LOW);
@@ -422,6 +425,8 @@ void ControllerDccpp::begin()
 #endif
 
 	//EEStore::init();                                          // initialize and load Turnout and Sensor definitions stored in EEPROM
+	this->speedRegister = 1;
+	this->functionRegister = 2;
 
 #if COMM_TYPE == 1
 #ifdef IP_ADDRESS
@@ -624,11 +629,11 @@ void ControllerDccpp::SetSpeedRaw()
 
 	if (this->panicStopped)
 	{
-		this->mainRegs.setThrottle(1, this->pControlled->GetDccId(), 1, this->pControlled->GetDirectionToLeft());
+		this->mainRegs.setThrottle(this->speedRegister, this->pControlled->GetDccId(), 1, this->pControlled->GetDirectionToLeft());
 		state = LOW;
 	}
 	else
-		this->mainRegs.setThrottle(1, this->pControlled->GetDccId(), this->pControlled->GetMappedSpeed(), this->pControlled->GetDirectionToLeft());
+		this->mainRegs.setThrottle(this->speedRegister, this->pControlled->GetDccId(), this->pControlled->GetMappedSpeed(), this->pControlled->GetDirectionToLeft());
 
 	if (DccppConfig::SignalEnablePinMain != 255)
 		digitalWrite(DccppConfig::SignalEnablePinMain, state);
@@ -763,15 +768,15 @@ void ControllerDccpp::SetFunctionsRaw()
 	}
 
 	if (flags & 1)
-		this->mainRegs.setFunction(this->pControlled->GetDccId(), oneByte1, -1);
+		this->mainRegs.setFunction(this->functionRegister, this->pControlled->GetDccId(), oneByte1, -1);
 	if (flags & 2)
-		this->mainRegs.setFunction(this->pControlled->GetDccId(), twoByte1, -1);
+		this->mainRegs.setFunction(this->functionRegister, this->pControlled->GetDccId(), twoByte1, -1);
 	if (flags & 4)
-		this->mainRegs.setFunction(this->pControlled->GetDccId(), threeByte1, -1);
+		this->mainRegs.setFunction(this->functionRegister, this->pControlled->GetDccId(), threeByte1, -1);
 	if (flags & 8)
-		this->mainRegs.setFunction(this->pControlled->GetDccId(), 222, fourByte2);
+		this->mainRegs.setFunction(this->functionRegister, this->pControlled->GetDccId(), 222, fourByte2);
 	if (flags & 16)
-		this->mainRegs.setFunction(this->pControlled->GetDccId(), 223, fiveByte2);
+		this->mainRegs.setFunction(this->functionRegister, this->pControlled->GetDccId(), 223, fiveByte2);
 }
 
 void ControllerDccpp::SetFunction(byte inFunctionNumber, bool inActivate)
@@ -786,6 +791,11 @@ void ControllerDccpp::SetFunction(byte inFunctionNumber, bool inActivate)
 #endif
 
 	this->SetFunctionsRaw();
+}
+
+void ControllerDccpp::SetAccessory(int inAddress, byte inSubAddress, bool inActivate)
+{
+	this->mainRegs.setAccessory(inAddress, inSubAddress, inActivate?1:0);
 }
 
 void ControllerDccpp::PanicStop(bool inStop)

@@ -17,8 +17,6 @@ void WindowLocoControl::begin(int inFirstLine, Handle *inpHandle)
 	this->dccMsg = STR_DCC;
 }
 
-// #define DDC_DEBUG_MODE
-
 void WindowLocoControl::Event(byte inEventType, LcdUi *inpLcd)
 {
 	bool showValue = false;

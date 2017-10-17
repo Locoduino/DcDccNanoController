@@ -21,6 +21,7 @@ public:
 		inline virtual bool SetSpeed(int inNewSpeed) { return false; }
 		inline virtual bool SetDirection(bool inToLeft) { return false; }
 		inline virtual void SetFunction(byte inFunctionNumber, bool inActivate) { }
+		inline virtual void SetAccessory(int inAddress, byte inSubAddress, bool inActivate) { }
 		inline virtual void PanicStop(bool inStop) { }
 		inline virtual void loop() { }
 
