@@ -57,11 +57,11 @@ void setup()
 	pushFunction2.AddEvent(EVENT_FUNCTION1, COMMANDERS_EVENT_MOVE, COMMANDERS_MOVE_OFF);
 #endif
 	buttonSelect.begin(EVENT_SELECT, A0);
-	buttonEncoder.begin(EVENT_ENCODER, 12, 8, 2);
-	buttonCancel.begin(EVENT_CANCEL, A3);
-	buttonEmergency.begin(EVENT_EMERGENCY, A4);
 	buttonF0.begin(EVENT_FUNCTION0, A1);
 	buttonF1.begin(EVENT_FUNCTION1, A2);
+	buttonEmergency.begin(EVENT_EMERGENCY, A3);
+	buttonCancel.begin(EVENT_CANCEL, A4);
+	buttonEncoder.begin(EVENT_ENCODER, 12, 8, 2);
 
 #ifdef VISUALSTUDIO
 	pinName(A0, "OK");

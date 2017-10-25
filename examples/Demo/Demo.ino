@@ -27,11 +27,11 @@ void setup()
 	Serial.begin(115200);
 
 	buttonSelect.begin(EVENT_SELECT, A0);
-	buttonEncoder.begin(EVENT_ENCODER, 12, 8, 2);
-	buttonCancel.begin(EVENT_CANCEL, A3);
-	buttonEmergency.begin(EVENT_EMERGENCY, A4);
 	buttonF0.begin(EVENT_FUNCTION0, A1);
 	buttonF1.begin(EVENT_FUNCTION1, A2);
+	buttonEmergency.begin(EVENT_EMERGENCY, A3);
+	buttonCancel.begin(EVENT_CANCEL, A4);
+	buttonEncoder.begin(EVENT_ENCODER, 12, 8, 2);
 
 	screen.begin(16, 2, DcDccStringTable, &lcd);
 
