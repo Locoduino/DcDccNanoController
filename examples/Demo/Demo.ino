@@ -39,7 +39,7 @@ void setup()
 	// if dcdcc pin equals to 0, dc mode is forced.
 	// otherwise, pin state give dc or dcc.
 	DcDccController::begin(A5, &screen);
-	DcDccController::beginMain(255, DCC_SIGNAL_PIN_MAIN, 11, A6);    // Dir, Pwm, current sensor pin
+	DcDccController::beginMain(255, DCC_SIGNAL_PIN_MAIN, 11, A6);
 }
 
 void loop()
