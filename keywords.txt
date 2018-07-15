@@ -6,16 +6,16 @@
 # Datatypes (KEYWORD1)
 #######################################
 
-DcDccController			KEYWORD1
+DcDccController	KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)
 #######################################
 
-begin					KEYWORD2
-beginMain				KEYWORD2
-beginProg				KEYWORD2
-setAccessory			KEYWORD2
+begin	KEYWORD2
+beginMain	KEYWORD2
+beginProg	KEYWORD2
+setAccessory	KEYWORD2
 
 #######################################
 # Constants (LITERAL1)

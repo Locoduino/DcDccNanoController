@@ -1,3 +1,10 @@
+15/07/2018 V1.1.2
+	- Correction du format de Keywords.txt
+	- Ajout du fichier LICENSE
+
+	- Fix Keywords.txt format.
+	- Add of LICENSE file
+
 18/10/2017 V1.1.1
 	- Mise en forme du numéro de version en 'semver' (Semantic Versioning 2.0.0).
 

@@ -40,10 +40,10 @@ extern const char * const string_table[] PROGMEM;
 #if defined(__DDCLanguage_H__)
 
 #ifdef SHORTLENGTH_MSG
-const char str_title[] PROGMEM =     "DcDccNano V1.1.1";
+const char str_title[] PROGMEM =     "DcDccNano V1.1.2";
 const char str_copyright[] PROGMEM = "By Thierry Paris";
 #else
-const char str_title[] PROGMEM = "DcDcc Nano Controller V1.1.1";
+const char str_title[] PROGMEM = "DcDcc Nano Controller V1.1.2";
 const char str_copyright[] PROGMEM = "By Thierry Paris";
 #endif
 
@@ -104,8 +104,8 @@ const char * const DcDccStringTable[] PROGMEM
 //
 // You can exclude some parts of library here, to avoid losing program and data memory
 // on parts you don t use.
-// For example, if you don t want buttons commander
-// just uncomment the line #define NO_BUTTONSCOMMANDER by removing // at the beginning.
+// For example, if you don t want a screen
+// just uncomment the line #define NO_SCREEN by removing // at the beginning.
 //
 // Arduino IDE build of list of the files to compile from the content of the library directory
 // in a makefile and give it to Gcc. So Gcc compiles all the files of the directory

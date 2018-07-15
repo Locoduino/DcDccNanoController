@@ -674,7 +674,7 @@ bool ControllerDccpp::SetDirection(bool inToLeft)
 
 #ifdef DDC_DEBUG_MODE
 	Serial.print(F("ControllerDccpp SetDirection "));
-	Serial.println(inToLeft ? F("ToLeft") : F("ToRight"));
+	Serial.println(inToLeft ? F("Forward") : F("Reverse"));
 #endif
 
 	this->pControlled->SetDirectionToLeft(inToLeft);
