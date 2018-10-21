@@ -779,16 +779,21 @@ void ControllerDccpp::SetFunctionsRaw()
 		this->mainRegs.setFunction(this->functionRegister, this->pControlled->GetDccId(), 223, fiveByte2);
 }
 
+
+// If inFunctionNumber is 255, just refresh the current state of all the functions.
 void ControllerDccpp::SetFunction(byte inFunctionNumber, bool inActivate)
 {
-	Function &f = this->pControlled->Functions[inFunctionNumber];
-	f.SetActivated(inActivate);
+	if (inFunctionNumber != 255) // if a function have to change its state...
+	{
+		Function &f = this->pControlled->Functions[inFunctionNumber];
+		f.SetActivated(inActivate);
 
 #ifdef DDC_DEBUG_MODE
-	Serial.print(F("ControllerDccpp SetFunction "));
-	Serial.print(this->pControlled->Functions[inFunctionNumber].DccIdFunction);
-	Serial.println(this->pControlled->Functions[inFunctionNumber].IsActivated() ? F(" On") : F(" Off"));
+		Serial.print(F("ControllerDccpp SetFunction "));
+		Serial.print(this->pControlled->Functions[inFunctionNumber].DccIdFunction);
+		Serial.println(this->pControlled->Functions[inFunctionNumber].IsActivated() ? F(" On") : F(" Off"));
 #endif
+	}
 
 	this->SetFunctionsRaw();
 }

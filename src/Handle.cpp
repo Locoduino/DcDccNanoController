@@ -282,6 +282,8 @@ bool Handle::loop(unsigned long inEvent, int inData)
 				break;
 
 			case STR_LOCOID:
+				// Refresh current state of functions for the new loco.
+				DcDccController::pController->SetFunction(-1, true);
 				//saveConfig = true;
 				break;
 			}

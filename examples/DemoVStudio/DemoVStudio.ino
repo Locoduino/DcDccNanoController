@@ -10,7 +10,7 @@ description: <Dc/Dcc Nano Controller sample>
 #include "DcDccNanoController.h"
 
 #include <LiquidCrystal.h>
-#include "ScreenLiquid.hpp"
+#include "ScreenLiquid.hpp"		// DcDccNaNoController include file associated with LiquidCrystal...
 
 LiquidCrystal lcd(7, 6, 5, 4, 3, 2);
 ScreenLiquid screen;
@@ -63,6 +63,7 @@ void setup()
 	buttonCancel.begin(EVENT_CANCEL, A4);
 	buttonEncoder.begin(EVENT_ENCODER, 12, 8, 2);
 
+	screen.begin(16, 2, DcDccStringTable, &lcd);
 #ifdef VISUALSTUDIO
 	pinName(A0, "OK");
 	pinName(A1, "F0");
@@ -75,18 +76,15 @@ void setup()
 	// if dcdcc pin equals to 255, dcc mode is forced.
 	// if dcdcc pin equals to 0, dc mode is forced.
 	// otherwise, pin state give dc or dcc.
-	screen.begin(16, 2, DcDccStringTable, &lcd);
 	DcDccController::begin(255/*A5*/, &screen);
-	DcDccController::beginMain(255, DCC_SIGNAL_PIN_MAIN, 11, A6);    // Dc: Dir, Pwm, current sensor
+	DcDccController::beginMain(255, DCC_SIGNAL_PIN_MAIN, 11, A6);
 }
 
 void loop()
 {
 	unsigned long eventId = Commanders::loop();
 
-	// For LcdUi, UNDEFINED_ID of Commanders has no meaning. And because it is necessary 
-	// to execute lcdui.event() at each call of the main loop, 
-	// do it with an empty event : EVENT_NONE.
+	// For LcdUi, UNDEFINED_ID of Commanders has no meaning. So convert it to EVENT_NONE.
 
 	if (eventId == UNDEFINED_ID)
 		eventId = EVENT_NONE;
