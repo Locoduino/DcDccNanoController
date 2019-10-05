@@ -3,7 +3,7 @@
 #define __DDCLanguage_H__
 //-------------------------------------------------------------------
 
-#include "arduino.h"
+#include "Arduino.h"
 
 // English language	for 16 characters display.
 

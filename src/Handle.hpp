@@ -3,7 +3,7 @@
 #define __handle_H__
 //-------------------------------------------------------------------
 
-#include "arduino.h"
+#include "Arduino.h"
 
 #ifndef __LcdUi_H__
 #include "LcdUi.h"
