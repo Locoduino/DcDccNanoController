@@ -173,7 +173,7 @@ DCC++ BASE STATION is configured through the Config.h file that contains all use
 **********************************************************************/
 
 #include "DcDccNanoController.h"
-#include "arduino.h"
+#include "Arduino.h"
 #include "ControllerDccpp.hpp"
 
 // SET UP COMMUNICATIONS INTERFACE - FOR STANDARD SERIAL, NOTHING NEEDS TO BE DONE
