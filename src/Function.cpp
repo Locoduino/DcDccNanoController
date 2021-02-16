@@ -4,9 +4,8 @@ author: <Thierry PARIS>
 description: <Class for a decoder function>
 *************************************************************/
 
-#include "EEPROM.h"
-
 #include "DcDccNanoController.h"
+#include "EEPROM.h"
 #include "Function.hpp"
 
 Function::Function(int inDccId)

@@ -293,6 +293,7 @@ void ControllerDccpp::beginMain(uint8_t inDirectionMotor, uint8_t Dummy, uint8_t
 
 	pinMode(DCC_SIGNAL_PIN_MAIN, OUTPUT);      // THIS ARDUINO OUPUT PIN MUST BE PHYSICALLY CONNECTED TO THE PIN FOR DIRECTION-A OF MOTOR CHANNEL-A
 
+#ifndef VISUALSTUDIO
 	bitSet(TCCR1A, WGM10);     // set Timer 1 to FAST PWM, with TOP=OCR1A
 	bitSet(TCCR1A, WGM11);
 	bitSet(TCCR1B, WGM12);
@@ -307,6 +308,7 @@ void ControllerDccpp::beginMain(uint8_t inDirectionMotor, uint8_t Dummy, uint8_t
 
 	OCR1A = DCC_ONE_BIT_TOTAL_DURATION_TIMER1;
 	OCR1B = DCC_ONE_BIT_PULSE_DURATION_TIMER1;
+#endif // !VISUALSTUDIO
 
 	pinMode(DccppConfig::SignalEnablePinMain, OUTPUT);   // master enable for motor channel A
 
@@ -315,7 +317,10 @@ void ControllerDccpp::beginMain(uint8_t inDirectionMotor, uint8_t Dummy, uint8_t
 	mainRegs.loadPacket(this->functionRegister, RegisterList::idlePacket, 2, 0);    // load idle packet into register 2
 	mainRegs.nextReg = NULL;
 
+#ifndef VISUALSTUDIO
 	bitSet(TIMSK1, OCIE1B);    // enable interrupt vector for Timer 1 Output Compare B Match (OCR1B)    
+#endif // !VISUALSTUDIO
+
 	digitalWrite(DccppConfig::SignalEnablePinMain, LOW);
 }
 
@@ -354,6 +359,7 @@ void ControllerDccpp::beginProg(uint8_t inDirectionMotor, uint8_t inSignalPin, u
 
 	pinMode(DCC_SIGNAL_PIN_PROG, OUTPUT);      // THIS ARDUINO OUTPUT PIN MUST BE PHYSICALLY CONNECTED TO THE PIN FOR DIRECTION-B OF MOTOR CHANNEL-B
 
+#ifndef VISUALSTUDIO
 	bitSet(TCCR0A, WGM00);     // set Timer 0 to FAST PWM, with TOP=OCR0A
 	bitSet(TCCR0A, WGM01);
 	bitSet(TCCR0B, WGM02);
@@ -367,12 +373,15 @@ void ControllerDccpp::beginProg(uint8_t inDirectionMotor, uint8_t inSignalPin, u
 
 	OCR0A = DCC_ONE_BIT_TOTAL_DURATION_TIMER0;
 	OCR0B = DCC_ONE_BIT_PULSE_DURATION_TIMER0;
+#endif // !VISUALSTUDIO
 
 	pinMode(DccppConfig::SignalEnablePinProg, OUTPUT);   // master enable for motor channel B
 
 	progRegs.loadPacket(1, RegisterList::idlePacket, 2, 0);    // load idle packet into register 1    
 
+#ifndef VISUALSTUDIO
 	bitSet(TIMSK0, OCIE0B);    // enable interrupt vector for Timer 0 Output Compare B Match (OCR0B)
+#endif // !VISUALSTUDIO
 
 #else      // Configuration for MEGA
 
@@ -392,6 +401,7 @@ void ControllerDccpp::beginProg(uint8_t inDirectionMotor, uint8_t inSignalPin, u
 
 	pinMode(DCC_SIGNAL_PIN_PROG, OUTPUT);      // THIS ARDUINO OUTPUT PIN MUST BE PHYSICALLY CONNECTED TO THE PIN FOR DIRECTION-B OF MOTOR CHANNEL-B
 
+#ifndef VISUALSTUDIO
 	bitSet(TCCR3A, WGM30);     // set Timer 3 to FAST PWM, with TOP=OCR3A
 	bitSet(TCCR3A, WGM31);
 	bitSet(TCCR3B, WGM32);
@@ -406,12 +416,15 @@ void ControllerDccpp::beginProg(uint8_t inDirectionMotor, uint8_t inSignalPin, u
 
 	OCR3A = DCC_ONE_BIT_TOTAL_DURATION_TIMER3;
 	OCR3B = DCC_ONE_BIT_PULSE_DURATION_TIMER3;
+#endif // !VISUALSTUDIO
 
 	pinMode(DccppConfig::SignalEnablePinProg, OUTPUT);   // master enable for motor channel B
 
 	progRegs.loadPacket(1, RegisterList::idlePacket, 2, 0);    // load idle packet into register 1    
 
+#ifndef VISUALSTUDIO
 	bitSet(TIMSK3, OCIE3B);    // enable interrupt vector for Timer 3 Output Compare B Match (OCR3B)    
+#endif // !VISUALSTUDIO
 
 #endif
 	digitalWrite(DccppConfig::SignalEnablePinProg, LOW);

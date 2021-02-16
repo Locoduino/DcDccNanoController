@@ -1,3 +1,6 @@
+15/02/2021 V1.2.0
+	- Update CV read/write according to last evolutions of DCCpp.
+
 05/10/2019 V1.1.4
 	- Rename of arduino.h to Arduino.h for Linux...
 

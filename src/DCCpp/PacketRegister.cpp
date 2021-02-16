@@ -200,17 +200,72 @@ void RegisterList::writeTextPacket(int nReg, byte *b, int nBytes) volatile
 
   ///////////////////////////////////////////////////////////////////////////////
 
+int RegisterList::buildBaseAcknowlegde(int inMonitorPin) volatile
+{
+	int base = 0;
+	for (int j = 0; j < ACK_BASE_COUNT; j++)
+	{
+		int val = (int)analogRead(inMonitorPin);
+		base += val;
+	}
+
+	return base / ACK_BASE_COUNT;
+}
+
+bool RegisterList::checkAcknowlegde(int inMonitorPin, int inBase) volatile
+{
+	int c = 0;
+	int max = 0;
+
+#if defined(ARDUINO_ARCH_ESP32)
+	int loopMax = 20;
+#else
+	int loopMax = 1;
+#endif
+
+#ifdef DCCPP_DEBUG_MODE
+	int loop = 0;
+#endif
+	for (int a = 0; a < loopMax; a++)
+	{
+		c = 0;
+		for (int j = 0; j < ACK_SAMPLE_COUNT; j++)
+		{
+			int val = (int)analogRead(inMonitorPin);
+			c = (int)((val - inBase) * ACK_SAMPLE_SMOOTHING + c * (1.0 - ACK_SAMPLE_SMOOTHING));
+			if (c > max)
+			{
+				max = c;
+#ifdef DCCPP_DEBUG_MODE
+				loop = a;
+#endif
+			}
+		}
+	}
+
+#ifdef DCCPP_DEBUG_MODE
+	Serial.print(F(" iter : "));
+	Serial.print(loop);
+	Serial.print(", max : ");
+	Serial.println(max);
+#endif
+
+	return (max > ACK_SAMPLE_THRESHOLD);
+}
+
 int RegisterList::readCVraw(int cv, int callBack, int callBackSub, bool FromProg) volatile
 {
 	byte bRead[4];
 	int bValue;
-	int c, d, base;
+	bool ret;
+	int base;
 	cv--;                              // actual CV addresses are cv-1 (0-1023)
 
 	byte MonitorPin = DccppConfig::CurrentMonitorProg;
 	if (!FromProg)
 		MonitorPin = DccppConfig::CurrentMonitorMain;
 
+	// A read cannot be done if a monitor pin is not defined !
 	if (MonitorPin == 255)
 		return -1;
 
@@ -221,56 +276,53 @@ int RegisterList::readCVraw(int cv, int callBack, int callBackSub, bool FromProg
 
 	for (int i = 0; i<8; i++) {
 
-		c = 0;
-		d = 0;
-		base = 0;
+		base = RegisterList::buildBaseAcknowlegde(MonitorPin);
 
-		for (int j = 0; j < ACK_BASE_COUNT; j++)
-		{
-			int val = (int)analogRead(MonitorPin);
-			base += val;
-		}
-		base /= ACK_BASE_COUNT;
+#if defined(ARDUINO_ARCH_ESP32)
+		delay(10);
+#endif
 
 		bRead[2] = 0xE8 + i;
 
 		loadPacket(0, resetPacket, 2, 3);          // NMRA recommends starting with 3 reset packets
-		loadPacket(0, bRead, 3, 5);                // NMRA recommends 5 verfy packets
-		loadPacket(0, resetPacket, 2, 1);          // forces code to wait until all repeats of bRead are completed (and decoder begins to respond)
+		loadPacket(0, bRead, 3, 5);                // NMRA recommends 5 verify packets
+//		loadPacket(0, resetPacket, 2, 1);          // forces code to wait until all repeats of bRead are completed (and decoder begins to respond)
+		loadPacket(0, idlePacket, 2, 6);          // NMRA recommends 6 idle or reset packets for decoder recovery time
 
-		for (int j = 0; j<ACK_SAMPLE_COUNT; j++)
-		{
-			int val = (int)analogRead(MonitorPin);
-			c = (int)((val - base)*ACK_SAMPLE_SMOOTHING + c*(1.0 - ACK_SAMPLE_SMOOTHING));
-			if (c>ACK_SAMPLE_THRESHOLD)
-				d = 1;
-		}
+#if defined(ARDUINO_ARCH_ESP32)
+		delay(2);
+#endif
 
-		bitWrite(bValue, i, d);
+		ret = RegisterList::checkAcknowlegde(MonitorPin, base);
+
+		bitWrite(bValue, i, ret);
 	}
 
-	c = 0;
-	d = 0;
-	base = 0;
+#if defined(ARDUINO_ARCH_ESP32)
+		delay(10);
+#endif
 
-	for (int j = 0; j<ACK_BASE_COUNT; j++)
-		base += analogRead(MonitorPin);
-	base /= ACK_BASE_COUNT;
+	base = RegisterList::buildBaseAcknowlegde(MonitorPin);
+
+#if defined(ARDUINO_ARCH_ESP32)
+		delay(10);
+#endif
 
 	bRead[0] = 0x74 + (highByte(cv) & 0x03);   // set-up to re-verify entire byte
 	bRead[2] = bValue;
 
-	loadPacket(0, resetPacket, 2, 3);          // NMRA recommends starting with 3 reset packets
-	loadPacket(0, bRead, 3, 5);                // NMRA recommends 5 verfy packets
-	loadPacket(0, resetPacket, 2, 1);          // forces code to wait until all repeats of bRead are completed (and decoder begins to respond)
+	loadPacket(0, resetPacket, 2, 3);       // NMRA recommends starting with 3 reset packets
+	loadPacket(0, bRead, 3, 5);             // NMRA recommends 5 verify packets
+	//loadPacket(0, resetPacket, 2, 1);     // forces code to wait until all repeats of bRead are completed (and decoder begins to respond)
+	loadPacket(0, idlePacket, 2, 6);				// NMRA recommends 6 idle or reset packets for decoder recovery time
 
-	for (int j = 0; j<ACK_SAMPLE_COUNT; j++) {
-		c = (int)((analogRead(MonitorPin) - base)*ACK_SAMPLE_SMOOTHING + c*(1.0 - ACK_SAMPLE_SMOOTHING));
-		if (c>ACK_SAMPLE_THRESHOLD)
-			d = 1;
-	}
+#if defined(ARDUINO_ARCH_ESP32)
+		delay(2);
+#endif
 
-	if (d == 0)    // verify unsuccessful
+	ret = RegisterList::checkAcknowlegde(MonitorPin, base);
+
+	if (ret == false)    // verify unsuccessful
 		bValue = -1;
 
 #ifdef DDC_DEBUG_MODE
@@ -305,7 +357,8 @@ int RegisterList::readCVmain(int cv, int callBack, int callBackSub) volatile
 void RegisterList::writeCVByte(int cv, int bValue, int callBack, int callBackSub) volatile 
 {
 	byte bWrite[4];
-	int c, d, base;
+	bool ok = false;
+	int ret, base;
 
 	cv--;                              // actual CV addresses are cv-1 (0-1023)
 
@@ -313,36 +366,33 @@ void RegisterList::writeCVByte(int cv, int bValue, int callBack, int callBackSub
 	bWrite[1] = lowByte(cv);
 	bWrite[2] = bValue;
 
-	loadPacket(0, resetPacket, 2, 1);
+	loadPacket(0, resetPacket, 2, 3);        // NMRA recommends starting with 3 reset packets
+	loadPacket(0, bWrite, 3, 5);             // NMRA recommends 5 verify packets
+	loadPacket(0, bWrite, 3, 6);             // NMRA recommends 6 write or reset packets for decoder recovery time
+
+	/*loadPacket(0, resetPacket, 2, 1);
 	loadPacket(0, bWrite, 3, 4);
 	loadPacket(0, resetPacket, 2, 1);
-	loadPacket(0, idlePacket, 2, 10);
+	loadPacket(0, idlePacket, 2, 10);*/
 
 	// If monitor pin undefined, write cv without any confirmation...
 	if (DccppConfig::CurrentMonitorProg != 255)
 	{
-		c = 0;
-		d = 0;
-		base = 0;
-
-		for (int j = 0; j < ACK_BASE_COUNT; j++)
-			base += analogRead(DccppConfig::CurrentMonitorProg);
-		base /= ACK_BASE_COUNT;
+		base = RegisterList::buildBaseAcknowlegde(DccppConfig::CurrentMonitorProg);
 
 		bWrite[0] = 0x74 + (highByte(cv) & 0x03);   // set-up to re-verify entire byte
 
 		loadPacket(0, resetPacket, 2, 3);          // NMRA recommends starting with 3 reset packets
-		loadPacket(0, bWrite, 3, 5);               // NMRA recommends 5 verfy packets
-		loadPacket(0, resetPacket, 2, 1);          // forces code to wait until all repeats of bRead are completed (and decoder begins to respond)
+		loadPacket(0, bWrite, 3, 5);               // NMRA recommends 5 verify packets
+		//loadPacket(0, resetPacket, 2, 1);          // forces code to wait until all repeats of bRead are completed (and decoder begins to respond)
+		loadPacket(0, bWrite, 3, 6);               // NMRA recommends 6 write or reset packets for decoder recovery time
 
-		for (int j = 0; j < ACK_SAMPLE_COUNT; j++) {
-			c = (int)((analogRead(DccppConfig::CurrentMonitorProg) - base)*ACK_SAMPLE_SMOOTHING + c*(1.0 - ACK_SAMPLE_SMOOTHING));
-			if (c > ACK_SAMPLE_THRESHOLD)
-				d = 1;
-		}
+		ret = RegisterList::checkAcknowlegde(DccppConfig::CurrentMonitorProg, base);
 
-		if (d == 0)    // verify unsuccessful
-			bValue = -1;
+		loadPacket(0, resetPacket, 2, 1);        // Final reset packet (and decoder begins to respond)
+
+		if (ret == 0)    // verify unsuccessful
+			ok = true;
 
 #ifdef DDC_DEBUG_MODE
 		INTERFACE.print("<r");
@@ -363,7 +413,7 @@ void RegisterList::writeCVByte(int cv, int bValue, int callBack, int callBackSub
 void RegisterList::writeCVBit(int cv, int bNum, int bValue, int callBack, int callBackSub) volatile 
 {
 	byte bWrite[4];
-	int c, d, base;
+	int ret, base;
 
 	cv--;                              // actual CV addresses are cv-1 (0-1023)
 	bValue = bValue % 2;
@@ -373,36 +423,28 @@ void RegisterList::writeCVBit(int cv, int bNum, int bValue, int callBack, int ca
 	bWrite[1] = lowByte(cv);
 	bWrite[2] = 0xF0 + bValue * 8 + bNum;
 
-	loadPacket(0, resetPacket, 2, 1);
+	/*loadPacket(0, resetPacket, 2, 1);
 	loadPacket(0, bWrite, 3, 4);
 	loadPacket(0, resetPacket, 2, 1);
-	loadPacket(0, idlePacket, 2, 10);
+	loadPacket(0, idlePacket, 2, 10);*/
+
+	loadPacket(0, resetPacket, 2, 3);        // NMRA recommends starting with 3 reset packets
+	loadPacket(0, bWrite, 3, 5);             // NMRA recommends 5 verify packets
+	loadPacket(0, bWrite, 3, 6);             // NMRA recommends 6 write or reset packets for decoder recovery time
 
 	// If monitor pin undefined, write cv without any confirmation...
 	if (DccppConfig::CurrentMonitorProg != 255)
 	{
-		c = 0;
-		d = 0;
-		base = 0;
-
-		for (int j = 0; j < ACK_BASE_COUNT; j++)
-			base += analogRead(DccppConfig::CurrentMonitorProg);
-		base /= ACK_BASE_COUNT;
+		base = RegisterList::buildBaseAcknowlegde(DccppConfig::CurrentMonitorProg);
 
 		bitClear(bWrite[2], 4);              // change instruction code from Write Bit to Verify Bit
 
 		loadPacket(0, resetPacket, 2, 3);          // NMRA recommends starting with 3 reset packets
 		loadPacket(0, bWrite, 3, 5);               // NMRA recommends 5 verfy packets
-		loadPacket(0, resetPacket, 2, 1);          // forces code to wait until all repeats of bRead are completed (and decoder begins to respond)
+		//loadPacket(0, resetPacket, 2, 1);          // forces code to wait until all repeats of bRead are completed (and decoder begins to respond)
+		loadPacket(0, bWrite, 3, 6);           // NMRA recommends 6 write or reset packets for decoder recovery time
 
-		for (int j = 0; j < ACK_SAMPLE_COUNT; j++) {
-			c = (int)((analogRead(DccppConfig::CurrentMonitorProg) - base)*ACK_SAMPLE_SMOOTHING + c*(1.0 - ACK_SAMPLE_SMOOTHING));
-			if (c > ACK_SAMPLE_THRESHOLD)
-				d = 1;
-		}
-
-		if (d == 0)    // verify unsuccessful
-			bValue = -1;
+		ret = RegisterList::checkAcknowlegde(DccppConfig::CurrentMonitorProg, base);
 
 #ifdef DDC_DEBUG_MODE
 		INTERFACE.print("<r");

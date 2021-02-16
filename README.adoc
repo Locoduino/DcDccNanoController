@@ -8,8 +8,8 @@ http://git.framasoft.org/locoduino.org/DcDccNanoController/wikis/home for both f
 
 == License ==
 
-Copyright (c) 2017 Locoduino.org. All right reserved.
-Copyright (c) 2017 Thierry Paris. All right reserved.
+Copyright (c) 2017-2021 Locoduino.org. All right reserved.
+Copyright (c) 2017-2021 Thierry Paris. All right reserved.
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public

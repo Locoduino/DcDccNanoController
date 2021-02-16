@@ -76,6 +76,9 @@ struct RegisterList{
   void writeCVByteMain(int cab, int cv, int bvalue) volatile;
   void writeCVBitMain(int cab, int cv, int bNum, int bValue) volatile;
 
+  int buildBaseAcknowlegde(int inMonitorPin) volatile;
+  bool checkAcknowlegde(int inMonitorPin, int inBase) volatile;
+
 #ifdef DDC_DEBUG_MODE
   void printPacket(int, byte *, int, int) volatile;
 #endif

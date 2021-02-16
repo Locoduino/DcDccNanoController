@@ -40,10 +40,10 @@ extern const char * const string_table[] PROGMEM;
 #if defined(__DDCLanguage_H__)
 
 #ifdef SHORTLENGTH_MSG
-const char str_title[] PROGMEM =     "DcDccNano V1.1.4";
+const char str_title[] PROGMEM =     "DcDccNano V1.2.0";
 const char str_copyright[] PROGMEM = "By Thierry Paris";
 #else
-const char str_title[] PROGMEM = "DcDcc Nano Controller V1.1.4";
+const char str_title[] PROGMEM = "DcDcc Nano Controller V1.2.0";
 const char str_copyright[] PROGMEM = "By Thierry Paris";
 #endif
 

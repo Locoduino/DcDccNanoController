@@ -65,12 +65,12 @@ void setup()
 
 	screen.begin(16, 2, DcDccStringTable, &lcd);
 #ifdef VISUALSTUDIO
-	pinName(A0, "OK");
-	pinName(A1, "F0");
-	pinName(A2, "F1");
-	pinName(A3, "CANC");
-	pinName(A4, "STOP");
-	pinName(A5, "DCC");
+	_pinName(A0, 0, "OK");
+	_pinName(A1, 0, "F0");
+	_pinName(A2, 0, "F1");
+	_pinName(A3, 0, "CANC");
+	_pinName(A4, 0, "STOP");
+	_pinName(A5, 0, "DCC");
 #endif
 
 	// if dcdcc pin equals to 255, dcc mode is forced.
