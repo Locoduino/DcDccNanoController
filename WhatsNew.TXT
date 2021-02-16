@@ -1,5 +1,12 @@
+16/02/2021 V1.2.1
+	- Fix ReadCvByte which always read cv 1 !
+
+	- Correction de ReadCvByte qui lisait obstinément le CV 1 !
+
 15/02/2021 V1.2.0
 	- Update CV read/write according to last evolutions of DCCpp.
+
+	- mise à jour de la lecture/écriture de CV conformément aux évolutions de DCCpp.
 
 05/10/2019 V1.1.4
 	- Rename of arduino.h to Arduino.h for Linux...

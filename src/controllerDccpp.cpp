@@ -854,6 +854,6 @@ void ControllerDccpp::WriteCv(int inCv, byte inValue)
 
 int ControllerDccpp::ReadCv(byte inCv)
 {
-	return this->mainRegs.readCVmain(1, 100+inCv, 100+inCv);
+	return this->mainRegs.readCVmain(inCv, 100+inCv, 100+inCv);
 }
 
